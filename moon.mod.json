@@ -4,7 +4,7 @@
   "readme": "README.md",
   "repository": "https://github.com/moonbit-community/immut_deque",
   "license": "Apache-2.0",
-  "keywords": [],
-  "description": "",
+  "keywords": ["functional-programming", "data-structure"],
+  "description": "immutable double ended queue",
   "source": "src"
 }
