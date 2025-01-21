@@ -14,13 +14,13 @@ fn flip[B, A, C](f : (B, A) -> C) -> (A, B) -> C {
 }
 
 ///|
-fn Tsil::foldl[A, B](self : Tsil[A], f : (B, A) -> B, init~ : B) -> B {
-  self._.rev_fold(flip(f), init~)
+fn Tsil::foldl[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
+  self._.rev_fold(flip(f), init=z)
 }
 
 ///|
-fn Tsil::foldr[A, B](self : Tsil[A], f : (A, B) -> B, init~ : B) -> B {
-  self._.fold(flip(f), init~)
+fn Tsil::foldr[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
+  self._.fold(f, init=z)
 }
 
 ///|
@@ -30,7 +30,7 @@ fn Tsil::iter[A](self : Tsil[A]) -> Iter[A] {
 
 ///|
 fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  other.foldl(Tsil::snoc, init=self)
+  @immut/list.concat(other._,self._)
 }
 
 test "append" {

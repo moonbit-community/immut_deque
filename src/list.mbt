@@ -9,13 +9,13 @@ fn List::reverse[A](self : List[A]) -> Tsil[A] {
 }
 
 ///|
-fn List::foldl[A, B](self : List[A], f : (B, A) -> B, init~ : B) -> B {
-  self._.fold(f, init~)
+fn List::foldl[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
+  self._.fold(f, init=z)
 }
 
 ///|
-fn List::foldr[A, B](self : List[A], f : (A, B) -> B, init~ : B) -> B {
-  self._.rev_fold(f, init~)
+fn List::foldr[A, B](self : List[A], f : (B,A) -> B, z : B) -> B {
+  self._.rev_fold(flip(f), init=z)
 }
 
 ///|
@@ -25,7 +25,7 @@ fn List::iter[A](self : List[A]) -> Iter[A] {
 
 ///|
 fn List::append[A](self : List[A], other : List[A]) -> List[A] {
-  self.foldr(flip(List::cons), init=other)
+  @immut/list.concat(self._,other._)
 }
 
 test "append" {

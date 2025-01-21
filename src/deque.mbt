@@ -58,29 +58,29 @@ pub fn map[A, B](self : T[A], f : (A) -> B) -> T[B] {
 }
 
 ///|
-pub fn foldl[A, B](self : T[A], f : (B, A) -> B, init~ : B) -> B {
+pub fn foldl[A, B](self : T[A], f : (B, A) -> B, z : B) -> B {
   let (cons, snoc) = self._
-  let init = cons.foldl(f, init~)
-  snoc.foldl(f, init~)
+  let z = cons.foldl(f, z)
+  snoc.foldl(f, z)
 }
 
 ///|
-pub fn foldr[A, B](self : T[A], f : (A, B) -> B, init~ : B) -> B {
+pub fn foldr[A, B](self : T[A], f : (B, A) -> B, z : B) -> B {
   let (cons, snoc) = self._
-  let init = snoc.foldr(f, init~)
-  cons.foldr(f, init~)
+  let z = snoc.foldr(f, z)
+  cons.foldr(f, z)
 }
 
 ///|
 pub fn bind[A, B](self : T[A], k : (A) -> T[B]) -> T[B] {
-  fn step(a : A, acc : List[B]) -> List[B] {
+  fn step(acc : List[B], a : A) -> List[B] {
     let (lst, tsl) = k(a)._
     lst.append(tsl.reverse().append(acc))
   }
 
   let (lst, tsl) = self._
-  let init = tsl.reverse().foldr(step, init=List(Nil))
-  let lst = lst.foldr(step, init~)
+  let z = tsl.reverse().foldr(step, List(Nil))
+  let lst = lst.foldr(step, z)
   (lst, Tsil(Nil))
 }
 

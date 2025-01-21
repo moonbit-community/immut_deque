@@ -15,8 +15,8 @@ impl T {
   append[A](Self[A], Self[A]) -> Self[A]
   bind[A, B](Self[A], (A) -> Self[B]) -> Self[B]
   cons[A](Self[A], A) -> Self[A]
-  foldl[A, B](Self[A], (B, A) -> B, init~ : B) -> B
-  foldr[A, B](Self[A], (A, B) -> B, init~ : B) -> B
+  foldl[A, B](Self[A], (B, A) -> B, B) -> B
+  foldr[A, B](Self[A], (B, A) -> B, B) -> B
   iter[A](Self[A]) -> Iter[A]
   join[A](Self[Self[A]]) -> Self[A]
   map[A, B](Self[A], (A) -> B) -> Self[B]
