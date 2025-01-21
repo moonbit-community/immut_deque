@@ -95,5 +95,5 @@ test "unsnoc/single" {
 
 test "unsnoc/multiple" {
   let d = of([1, 2, 3])
-  inspect!(d.unsnoc(), content="Some((3, @deque.of([1, ])))")
+  inspect!(d.unsnoc(), content="Some((3, @deque.of([1, 2])))")
 }
