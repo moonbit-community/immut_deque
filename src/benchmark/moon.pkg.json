@@ -1,0 +1,10 @@
+{
+  "import" : [
+    {
+      "path": "moonbitlang/x/benchmark",
+      "alias": "bm"
+    },
+    "illusory0x0/immut_deque"
+  ],
+  "warn-list": "-A"
+}
