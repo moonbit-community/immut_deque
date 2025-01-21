@@ -27,45 +27,6 @@ test "cons/snoc-2" {
   inspect!(xs.snoc(99), content="@deque.of([1, 2, 3, 4, 5, 6, 99])")
 }
 
-test "append" {
-  let xs = [] |> of
-  let ys = [] |> of
-  let xs = xs.cons(1).snoc(2)
-  let ys = ys.cons(3).snoc(4)
-  let zs = xs.append(ys)
-  inspect!(xs, content="@deque.of([1, 2])")
-  inspect!(ys, content="@deque.of([3, 4])")
-  inspect!(zs, content="@deque.of([1, 2, 3, 4])")
-}
-
-test "bind" {
-  let xs = [1, 2, 3] |> @immut/list.of |> from_list
-  let ys = [4, 5, 5] |> @immut/list.of |> from_rev_list
-  let zs = xs.append(ys)
-  fn k(x : Int) -> T[Int] {
-    [x * 2, x * 3, x * 5] |> of
-  }
-
-  inspect!(
-    zs.bind(k),
-    content="@deque.of([2, 3, 5, 4, 6, 10, 6, 9, 15, 8, 12, 20, 10, 15, 25, 10, 15, 25])",
-  )
-}
-
-test "map" {
-  let xs = [1, 2, 3] |> @immut/list.of |> from_list
-  let ys = [4, 5, 5] |> @immut/list.of |> from_rev_list
-  let zs = xs.append(ys)
-  fn f(x : Int) -> T[Int] {
-    [x * 2, x * 3, x * 5] |> of
-  }
-
-  inspect!(
-    zs.map(f),
-    content="@deque.of([@deque.of([2, 3, 5]), @deque.of([4, 6, 10]), @deque.of([6, 9, 15]), @deque.of([10, 15, 25]), @deque.of([10, 15, 25]), @deque.of([8, 12, 20])])",
-  )
-}
-
 test "uncons/empty" {
   let empty : T[Int] = of([])
   inspect!(empty.uncons(), content="None")
@@ -96,4 +57,41 @@ test "unsnoc/single" {
 test "unsnoc/multiple" {
   let d = of([1, 2, 3])
   inspect!(d.unsnoc(), content="Some((3, @deque.of([1, 2])))")
+}
+
+test "append" {
+  let xs = [] |> of
+  let ys = [] |> of
+  let xs = xs.cons(1).snoc(2)
+  let ys = ys.cons(3).snoc(4)
+  let zs = xs.append(ys)
+  inspect!(xs, content="@deque.of([1, 2])")
+  inspect!(ys, content="@deque.of([3, 4])")
+  inspect!(zs, content="@deque.of([1, 2, 3, 4])")
+}
+
+///|
+let xs : T[Int] = of([]).cons(2).cons(1).snoc(3).snoc(4)
+
+test {
+  inspect!(xs, content="@deque.of([1, 2, 3, 4])")
+}
+
+test "map" {
+  inspect!(
+    xs.map(fn(x) { [x, x * 11] |> of }),
+    content="@deque.of([@deque.of([1, 11]), @deque.of([2, 22]), @deque.of([3, 33]), @deque.of([4, 44])])",
+  )
+}
+
+test "bind" {
+  inspect!(
+    xs.bind(fn(x) { [x, x * 11] |> of }),
+    content="@deque.of([1, 11, 2, 22, 3, 33, 4, 44])",
+  )
+}
+
+test "iter/rev_iter" {
+  inspect!(xs.iter(),content="[1, 2, 3, 4]")
+  inspect!(xs.rev_iter(),content="[4, 3, 2, 1]")
 }

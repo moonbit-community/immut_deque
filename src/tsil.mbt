@@ -28,6 +28,11 @@ fn Tsil::iter[A](self : Tsil[A]) -> Iter[A] {
   self._.rev().iter()
 }
 
+fn Tsil::rev_iter[A](self : Tsil[A]) -> Iter[A] {
+  self._.iter()
+}
+
+
 ///|
 fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
   @immut/list.concat(other._,self._)

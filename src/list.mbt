@@ -23,6 +23,11 @@ fn List::iter[A](self : List[A]) -> Iter[A] {
   self._.iter()
 }
 
+fn List::rev_iter[A](self : List[A]) -> Iter[A] {
+  self._.rev().iter()
+}
+
+
 ///|
 fn List::append[A](self : List[A], other : List[A]) -> List[A] {
   @immut/list.concat(self._,other._)

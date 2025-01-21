@@ -79,7 +79,7 @@ pub fn bind[A, B](self : T[A], k : (A) -> T[B]) -> T[B] {
   }
 
   let (lst, tsl) = self._
-  let z = tsl.reverse().foldr(step, List(Nil))
+  let z = tsl.reverse().foldl(step, List(Nil))
   let lst = lst.foldr(step, z)
   (lst, Tsil(Nil))
 }
@@ -105,6 +105,16 @@ pub fn iter[A](self : T[A]) -> Iter[A] {
     let (lst, tsl) = self._
     match lst.iter().run(k) {
       IterContinue => tsl.iter().run(k)
+      IterEnd => IterEnd
+    }
+  })
+}
+
+pub fn rev_iter[A](self : T[A]) -> Iter[A] {
+  Iter::new(fn(k) {
+    let (lst, tsl) = self._
+    match tsl.rev_iter().run(k) {
+      IterContinue => lst.rev_iter().run(k)
       IterEnd => IterEnd
     }
   })

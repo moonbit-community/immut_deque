@@ -20,6 +20,7 @@ impl T {
   iter[A](Self[A]) -> Iter[A]
   join[A](Self[Self[A]]) -> Self[A]
   map[A, B](Self[A], (A) -> B) -> Self[B]
+  rev_iter[A](Self[A]) -> Iter[A]
   reverse[A](Self[A]) -> Self[A]
   snoc[A](Self[A], A) -> Self[A]
   uncons[A](Self[A]) -> (A, Self[A])?
