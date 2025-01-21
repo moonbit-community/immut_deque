@@ -14,13 +14,13 @@ fn flip[B, A, C](f : (B, A) -> C) -> (A, B) -> C {
 }
 
 ///|
-fn Tsil::foldl[A, B](self : Tsil[A], f : (B, A) -> B, init~ : B) -> B {
-  self._.rev_fold(flip(f), init~)
+fn Tsil::foldl[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
+  self._.rev_fold(flip(f), init=z)
 }
 
 ///|
-fn Tsil::foldr[A, B](self : Tsil[A], f : (A, B) -> B, init~ : B) -> B {
-  self._.fold(flip(f), init~)
+fn Tsil::foldr[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
+  self._.fold(f, init=z)
 }
 
 ///|
@@ -29,8 +29,13 @@ fn Tsil::iter[A](self : Tsil[A]) -> Iter[A] {
 }
 
 ///|
+fn Tsil::rev_iter[A](self : Tsil[A]) -> Iter[A] {
+  self._.iter()
+}
+
+///|
 fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  other.foldl(Tsil::snoc, init=self)
+  @immut/list.concat(other._, self._)
 }
 
 test "append" {
@@ -43,7 +48,20 @@ test "append" {
 
 ///|
 fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
-  xs |> @immut/list.of |> @immut/list.rev
+  xs.fold(init=Tsil(Nil), Tsil::snoc)
+}
+
+test "Tsil::of/empty" {
+  let empty : FixedArray[Int] = []
+  inspect!(Tsil::of(empty), content="@tsil.of([])")
+}
+
+test "Tsil::of/single" {
+  inspect!(Tsil::of([1]), content="@tsil.of([1])")
+}
+
+test "Tsil::of/multiple" {
+  inspect!(Tsil::of([1, 2, 3, 4, 5]), content="@tsil.of([1, 2, 3, 4, 5])")
 }
 
 ///|

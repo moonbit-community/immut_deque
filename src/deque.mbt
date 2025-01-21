@@ -9,7 +9,7 @@ pub fn append[A](self : T[A], other : T[A]) -> T[A] {
   let (lst1, tsl1) = self._
   let (lst2, tsl2) = other._
   let lst = lst1
-  let tsl = tsl1.append(lst2.reverse()).append(tsl2)
+  let tsl = lst2.foldl(Tsil::snoc, tsl1).append(tsl2)
   (lst, tsl)
 }
 
@@ -42,7 +42,7 @@ pub fn uncons[A](self : T[A]) -> (A, T[A])? {
 pub fn unsnoc[A](self : T[A]) -> (A, T[A])? {
   let (lst, tsl) = self._
   match tsl._ {
-    Cons(last, init) => Some((last, (List(init), tsl)))
+    Cons(last, init) => Some((last, (lst, Tsil(init))))
     Nil =>
       match lst._.rev() {
         Cons(last, init) => Some((last, (List(Nil), Tsil(init))))
@@ -58,29 +58,29 @@ pub fn map[A, B](self : T[A], f : (A) -> B) -> T[B] {
 }
 
 ///|
-pub fn foldl[A, B](self : T[A], f : (B, A) -> B, init~ : B) -> B {
+pub fn foldl[A, B](self : T[A], f : (B, A) -> B, z : B) -> B {
   let (cons, snoc) = self._
-  let init = cons.foldl(f, init~)
-  snoc.foldl(f, init~)
+  let z = cons.foldl(f, z)
+  snoc.foldl(f, z)
 }
 
 ///|
-pub fn foldr[A, B](self : T[A], f : (A, B) -> B, init~ : B) -> B {
+pub fn foldr[A, B](self : T[A], f : (B, A) -> B, z : B) -> B {
   let (cons, snoc) = self._
-  let init = snoc.foldr(f, init~)
-  cons.foldr(f, init~)
+  let z = snoc.foldr(f, z)
+  cons.foldr(f, z)
 }
 
 ///|
 pub fn bind[A, B](self : T[A], k : (A) -> T[B]) -> T[B] {
-  fn step(a : A, acc : List[B]) -> List[B] {
+  fn step(acc : List[B], a : A) -> List[B] {
     let (lst, tsl) = k(a)._
     lst.append(tsl.reverse().append(acc))
   }
 
   let (lst, tsl) = self._
-  let init = tsl.reverse().foldr(step, init=List(Nil))
-  let lst = lst.foldr(step, init~)
+  let z = tsl.reverse().foldl(step, List(Nil))
+  let lst = lst.foldr(step, z)
   (lst, Tsil(Nil))
 }
 
@@ -111,6 +111,22 @@ pub fn iter[A](self : T[A]) -> Iter[A] {
 }
 
 ///|
+pub fn rev_iter[A](self : T[A]) -> Iter[A] {
+  Iter::new(fn(k) {
+    let (lst, tsl) = self._
+    match tsl.rev_iter().run(k) {
+      IterContinue => lst.rev_iter().run(k)
+      IterEnd => IterEnd
+    }
+  })
+}
+
+///|
+pub fn to_array[A](self : T[A]) -> Array[A] {
+  self.iter().to_array()
+}
+
+///|
 pub impl[A : Show] Show for T[A] with output(xs, logger) {
   logger.write_iter(xs.iter(), prefix="@deque.of([", suffix="])")
 }
@@ -118,4 +134,9 @@ pub impl[A : Show] Show for T[A] with output(xs, logger) {
 ///|
 pub fn of[A](xs : FixedArray[A]) -> T[A] {
   xs |> @immut/list.of |> from_list
+}
+
+///|
+pub fn empty[A]() -> T[A] {
+  (List(Nil), Tsil(Nil))
 }
