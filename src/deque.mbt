@@ -9,7 +9,7 @@ pub fn append[A](self : T[A], other : T[A]) -> T[A] {
   let (lst1, tsl1) = self._
   let (lst2, tsl2) = other._
   let lst = lst1
-  let tsl = tsl1.append(lst2.reverse()).append(tsl2)
+  let tsl = lst2.foldl(Tsil::snoc, tsl1).append(tsl2)
   (lst, tsl)
 }
 
@@ -42,7 +42,7 @@ pub fn uncons[A](self : T[A]) -> (A, T[A])? {
 pub fn unsnoc[A](self : T[A]) -> (A, T[A])? {
   let (lst, tsl) = self._
   match tsl._ {
-    Cons(last, init) => Some((last, (List(init), tsl)))
+    Cons(last, init) => Some((last, (lst, Tsil(init))))
     Nil =>
       match lst._.rev() {
         Cons(last, init) => Some((last, (List(Nil), Tsil(init))))
@@ -110,6 +110,7 @@ pub fn iter[A](self : T[A]) -> Iter[A] {
   })
 }
 
+///|
 pub fn rev_iter[A](self : T[A]) -> Iter[A] {
   Iter::new(fn(k) {
     let (lst, tsl) = self._
@@ -121,6 +122,11 @@ pub fn rev_iter[A](self : T[A]) -> Iter[A] {
 }
 
 ///|
+pub fn to_array[A](self : T[A]) -> Array[A] {
+  self.iter().to_array()
+}
+
+///|
 pub impl[A : Show] Show for T[A] with output(xs, logger) {
   logger.write_iter(xs.iter(), prefix="@deque.of([", suffix="])")
 }
@@ -128,4 +134,9 @@ pub impl[A : Show] Show for T[A] with output(xs, logger) {
 ///|
 pub fn of[A](xs : FixedArray[A]) -> T[A] {
   xs |> @immut/list.of |> from_list
+}
+
+///|
+pub fn empty[A]() -> T[A] {
+  (List(Nil), Tsil(Nil))
 }

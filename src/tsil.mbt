@@ -48,8 +48,23 @@ test "append" {
 
 ///|
 fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
-  xs |> @immut/list.of |> @immut/list.rev
+  xs.fold(init=Tsil(Nil),Tsil::snoc)
 }
+
+test "Tsil::of/empty" {
+  let empty : FixedArray[Int] = []
+  inspect!(Tsil::of(empty), content="@tsil.of([])")
+}
+
+test "Tsil::of/single" {
+  inspect!(Tsil::of([1]), content="@tsil.of([1])")
+}
+
+test "Tsil::of/multiple" {
+  inspect!(Tsil::of([1, 2, 3, 4, 5]), content="@tsil.of([1, 2, 3, 4, 5])")
+}
+
+
 
 ///|
 impl[A : Show] Show for Tsil[A] with output(self, logger) {

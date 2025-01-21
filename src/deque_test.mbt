@@ -92,6 +92,271 @@ test "bind" {
 }
 
 test "iter/rev_iter" {
-  inspect!(xs.iter(),content="[1, 2, 3, 4]")
-  inspect!(xs.rev_iter(),content="[4, 3, 2, 1]")
+  inspect!(xs.iter(), content="[1, 2, 3, 4]")
+  inspect!(xs.rev_iter(), content="[4, 3, 2, 1]")
 }
+
+// here is genreated by AI
+
+test "@immut_deque.bind/empty" {
+  // Test binding an empty deque
+  let empty : T[Int] = @immut_deque.of([])
+  let result = empty.bind(fn(x) { @immut_deque.of([x]) })
+  inspect!(result, content="@deque.of([])")
+}
+
+test "@immut_deque.bind/identity" {
+  // Test binding with identity function (should preserve structure)
+  let d = @immut_deque.of([1, 2, 3])
+  let result = d.bind(fn(x) { @immut_deque.of([x]) })
+  inspect!(result, content="@deque.of([1, 2, 3])")
+}
+
+test "@immut_deque.bind/flatten" {
+  // Test binding that creates multiple elements
+  let d = @immut_deque.of([1, 2])
+  let result = d.bind(fn(x) { @immut_deque.of([x, x]) })
+  inspect!(result, content="@deque.of([1, 1, 2, 2])")
+}
+
+test "@immut_deque.join/empty" {
+  let empty : T[Int] = @immut_deque.of([])
+  let nested_empty = @immut_deque.of([empty])
+  inspect!(nested_empty.join(), content="@deque.of([])")
+}
+
+test "@immut_deque.join/single_level" {
+  let d1 = @immut_deque.of([1, 2])
+  let d2 = @immut_deque.of([3, 4])
+  let nested = @immut_deque.of([d1, d2])
+  inspect!(nested.join(), content="@deque.of([1, 2, 3, 4])")
+}
+
+test "@immut_deque.join/mixed" {
+  let d1 = @immut_deque.of([1])
+  let d2 = @immut_deque.of([])
+  let d3 = @immut_deque.of([2, 3])
+  let nested = @immut_deque.of([d1, d2, d3])
+  inspect!(nested.join(), content="@deque.of([1, 2, 3])")
+}
+
+test "@immut_deque.cons/empty" {
+  let empty = @immut_deque.empty()
+  inspect!(@immut_deque.cons(empty, 1), content="@deque.of([1])")
+}
+
+test "@immut_deque.cons/single" {
+  let single = @immut_deque.of([1])
+  inspect!(@immut_deque.cons(single, 0), content="@deque.of([0, 1])")
+}
+
+test "@immut_deque.cons/multiple" {
+  let multiple = @immut_deque.of([1, 2, 3])
+  inspect!(@immut_deque.cons(multiple, 0), content="@deque.of([0, 1, 2, 3])")
+}
+
+test "@immut_deque.append/empty_both" {
+  let empty : T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.append(empty, empty), content="@deque.of([])")
+}
+
+test "@immut_deque.append/empty_left" {
+  let empty = @immut_deque.empty()
+  let deque = @immut_deque.of([1, 2, 3])
+  inspect!(@immut_deque.append(empty, deque), content="@deque.of([1, 2, 3])")
+}
+
+test "@immut_deque.append/non_empty" {
+  let d1 = @immut_deque.of([1, 2])
+  let d2 = @immut_deque.of([3, 4])
+  inspect!(@immut_deque.append(d1, d2), content="@deque.of([1, 2, 3, 4])")
+}
+
+test "@immut_deque.snoc/empty" {
+  let empty = @immut_deque.empty()
+  inspect!(@immut_deque.snoc(empty, 1), content="@deque.of([1])")
+}
+
+test "@immut_deque.snoc/multiple" {
+  let d = @immut_deque.of([1, 2, 3])
+  let d1 = @immut_deque.snoc(d, 4)
+  let d2 = @immut_deque.snoc(d1, 5)
+  inspect!(d2, content="@deque.of([1, 2, 3, 4, 5])")
+}
+
+test "@immut_deque.snoc/preserve_original" {
+  let d = @immut_deque.of([1, 2])
+  let _ = @immut_deque.snoc(d, 3)
+  inspect!(d, content="@deque.of([1, 2])")
+}
+
+test "@immut_deque.reverse/empty" {
+  let empty : T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.reverse(empty), content="@deque.of([])")
+}
+
+test "@immut_deque.reverse/single" {
+  let single = @immut_deque.of([1])
+  inspect!(@immut_deque.reverse(single), content="@deque.of([1])")
+}
+
+test "@immut_deque.reverse/multiple" {
+  let deque = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
+  inspect!(@immut_deque.reverse(deque), content="@deque.of([5, 4, 3, 2, 1])")
+}
+
+test "@immut_deque.uncons/empty" {
+  let empty : T[Int] = @immut_deque.empty()
+  inspect!(empty.uncons(), content="None")
+}
+
+test "@immut_deque.uncons/single" {
+  let d = @immut_deque.of([1])
+  inspect!(d.uncons(), content="Some((1, @deque.of([])))")
+}
+
+test "@immut_deque.uncons/multiple" {
+  let d = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
+  let mut curr = d
+  let expected = [1, 2, 3, 4, 5]
+  for i = 0; i < 5; i = i + 1 {
+    match curr.uncons() {
+      Some((x, rest)) => {
+        inspect!(x, content="\{expected[i]}")
+        curr = rest
+      }
+      None => fail!("Expected Some but got None at iteration \{i}")
+    }
+  }
+  inspect!(curr.unsnoc(), content="None")
+}
+
+test "@immut_deque.unsnoc/empty" {
+  let empty : T[Int] = @immut_deque.empty()
+  inspect!(empty.unsnoc(), content="None")
+}
+
+test "@immut_deque.unsnoc/single" {
+  let d = @immut_deque.of([1])
+  let res = d.unsnoc()
+  match res {
+    Some((x, rest)) => {
+      inspect!(x, content="1")
+      inspect!(rest, content="@deque.of([])")
+    }
+    None => fail!("Expected Some but got None")
+  }
+}
+
+test "@immut_deque.unsnoc/multiple" {
+  let d = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
+  let mut curr = d
+  let expected = [5, 4, 3, 2, 1]
+  for i = 0; i < 5; i = i + 1 {
+    match curr.unsnoc() {
+      Some((x, rest)) => {
+        inspect!(x, content="\{expected[i]}")
+        curr = rest
+      }
+      None => fail!("Expected Some but got None at iteration \{i}")
+    }
+  }
+  inspect!(curr.unsnoc(), content="None")
+}
+
+test "@immut_deque.map/empty" {
+  let empty = @immut_deque.empty()
+  let mapped = empty.map(fn(x : Int) { x + 1 })
+  inspect!(mapped, content="@deque.of([])")
+}
+
+test "@immut_deque.map/single_element" {
+  let deque = @immut_deque.of([42])
+  let mapped = deque.map(fn(x) { x * 2 })
+  inspect!(mapped, content="@deque.of([84])")
+}
+
+test "@immut_deque.map/multiple_elements" {
+  let deque = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
+  let mapped = deque.map(fn(x) { x * x })
+  inspect!(mapped, content="@deque.of([1, 4, 9, 16, 25])")
+}
+
+test "@immut_deque.foldl/empty" {
+  let empty = @immut_deque.empty()
+  inspect!(@immut_deque.foldl(empty, fn(acc, x) { acc + x }, 0), content="0")
+}
+
+test "@immut_deque.foldl/single" {
+  let deque = @immut_deque.of([5])
+  inspect!(@immut_deque.foldl(deque, fn(acc, x) { acc + x }, 0), content="5")
+}
+
+test "@immut_deque.foldl/multiple" {
+  let deque = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
+  // Test sum
+  inspect!(@immut_deque.foldl(deque, fn(acc, x) { acc + x }, 0), content="15")
+  // Test string concatenation
+  inspect!(
+    @immut_deque.foldl(deque, fn(acc, x) { acc + x.to_string() }, ""),
+    content="12345",
+  )
+}
+
+test "@immut_deque.foldr/empty" {
+  let empty : T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.foldr(empty, fn(acc, x) { acc + x }, 0), content="0")
+}
+
+test "@immut_deque.foldr/single_element" {
+  let d = @immut_deque.of([42])
+  inspect!(@immut_deque.foldr(d, fn(acc, x) { acc + x }, 0), content="42")
+}
+
+test "@immut_deque.foldr/multiple_elements" {
+  // Testing right associativity with subtraction
+  let d = @immut_deque.of([1, 2, 3])
+  // Should compute as: 1 - (2 - (3 - 10)) = 1 - (2 - (-7)) = 1 - 9 = -8
+  inspect!(@immut_deque.foldr(d, fn(acc, x) { x - acc }, 10), content="-8")
+}
+
+
+
+fn arbitrary() -> T[Int] {
+  let xs = @quickcheck.samples(100)
+  let mut d = empty()
+  for x in xs {
+    if (x % 2 == 0 ) {
+      d = d.cons(x)
+    } else {
+      d = d.snoc(x)
+    }
+  }
+  d
+}
+
+
+test "uncons" {
+  let d = arbitrary()
+  let uncons = []
+  let mut uncons_d = d
+  while true {
+    guard let Some((x, xs)) = uncons_d.uncons() else { None => break }
+    uncons_d = xs
+    uncons.push(x)
+  }
+  inspect!(d.to_array() == uncons, content="true")
+}
+
+test "unsnoc" {
+  let d = arbitrary()
+  let uncons = []
+  let mut uncons_d = d
+  while true {
+    guard let Some((x, xs)) = uncons_d.unsnoc() else { None => break }
+    uncons_d = xs
+    uncons.push(x)
+  }
+  inspect!(d.rev_iter().to_array() == uncons, content="true")
+}
+

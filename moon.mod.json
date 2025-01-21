@@ -1,10 +1,14 @@
 {
   "name": "illusory0x0/immut_deque",
   "version": "0.1.0",
+  "deps": {},
   "readme": "README.md",
   "repository": "https://github.com/moonbit-community/immut_deque",
   "license": "Apache-2.0",
-  "keywords": ["functional-programming", "data-structure"],
+  "keywords": [
+    "functional-programming",
+    "data-structure"
+  ],
   "description": "immutable double ended queue",
   "source": "src"
 }
