@@ -14,7 +14,7 @@ fn List::foldl[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
 }
 
 ///|
-fn List::foldr[A, B](self : List[A], f : (B,A) -> B, z : B) -> B {
+fn List::foldr[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
   self._.rev_fold(flip(f), init=z)
 }
 
@@ -23,14 +23,14 @@ fn List::iter[A](self : List[A]) -> Iter[A] {
   self._.iter()
 }
 
+///|
 fn List::rev_iter[A](self : List[A]) -> Iter[A] {
   self._.rev().iter()
 }
 
-
 ///|
 fn List::append[A](self : List[A], other : List[A]) -> List[A] {
-  @immut/list.concat(self._,other._)
+  @immut/list.concat(self._, other._)
 }
 
 test "append" {

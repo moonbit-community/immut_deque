@@ -28,14 +28,14 @@ fn Tsil::iter[A](self : Tsil[A]) -> Iter[A] {
   self._.rev().iter()
 }
 
+///|
 fn Tsil::rev_iter[A](self : Tsil[A]) -> Iter[A] {
   self._.iter()
 }
 
-
 ///|
 fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  @immut/list.concat(other._,self._)
+  @immut/list.concat(other._, self._)
 }
 
 test "append" {
@@ -48,7 +48,7 @@ test "append" {
 
 ///|
 fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
-  xs.fold(init=Tsil(Nil),Tsil::snoc)
+  xs.fold(init=Tsil(Nil), Tsil::snoc)
 }
 
 test "Tsil::of/empty" {
@@ -63,8 +63,6 @@ test "Tsil::of/single" {
 test "Tsil::of/multiple" {
   inspect!(Tsil::of([1, 2, 3, 4, 5]), content="@tsil.of([1, 2, 3, 4, 5])")
 }
-
-
 
 ///|
 impl[A : Show] Show for Tsil[A] with output(self, logger) {

@@ -320,13 +320,12 @@ test "@immut_deque.foldr/multiple_elements" {
   inspect!(@immut_deque.foldr(d, fn(acc, x) { x - acc }, 10), content="-8")
 }
 
-
-
+///|
 fn arbitrary() -> T[Int] {
   let xs = @quickcheck.samples(100)
   let mut d = empty()
   for x in xs {
-    if (x % 2 == 0 ) {
+    if x % 2 == 0 {
       d = d.cons(x)
     } else {
       d = d.snoc(x)
@@ -334,7 +333,6 @@ fn arbitrary() -> T[Int] {
   }
   d
 }
-
 
 test "uncons" {
   let d = arbitrary()
@@ -359,4 +357,3 @@ test "unsnoc" {
   }
   inspect!(d.rev_iter().to_array() == uncons, content="true")
 }
-
