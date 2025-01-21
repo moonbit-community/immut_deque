@@ -1,0 +1,33 @@
+package illusory0x0/immut_deque
+
+alias @moonbitlang/core/immut/list as @list
+
+// Values
+fn from_list[A](@list.T[A]) -> T[A]
+
+fn from_rev_list[A](@list.T[A]) -> T[A]
+
+fn of[A](FixedArray[A]) -> T[A]
+
+// Types and methods
+type T
+impl T {
+  append[A](Self[A], Self[A]) -> Self[A]
+  bind[A, B](Self[A], (A) -> Self[B]) -> Self[B]
+  cons[A](Self[A], A) -> Self[A]
+  foldl[A, B](Self[A], (B, A) -> B, init~ : B) -> B
+  foldr[A, B](Self[A], (A, B) -> B, init~ : B) -> B
+  iter[A](Self[A]) -> Iter[A]
+  join[A](Self[Self[A]]) -> Self[A]
+  map[A, B](Self[A], (A) -> B) -> Self[B]
+  reverse[A](Self[A]) -> Self[A]
+  snoc[A](Self[A], A) -> Self[A]
+  uncons[A](Self[A]) -> (A, Self[A])?
+  unsnoc[A](Self[A]) -> (A, Self[A])?
+}
+impl[A : Show] Show for T[A]
+
+// Type aliases
+
+// Traits
+
