@@ -28,6 +28,11 @@ jobs:
         run: |
           Set-ExecutionPolicy RemoteSigned -Scope CurrentUser; irm https://cli.moonbitlang.com/install/powershell.ps1 | iex
           "C:\Users\runneradmin\.moon\bin" | Out-File -FilePath $env:GITHUB_PATH -Append
+      
+      - name: install deps
+        run: |
+          moon update
+          moon add moonbitlang/x
 
       - name: moon version
         run: |
@@ -122,6 +127,11 @@ jobs:
         env:
           MOONBIT_INSTALL_VERSION: nightly
 
+      - name: install deps
+        run: |
+          moon update
+          moon add moonbitlang/x
+
       - name: moon version
         run: |
           moon version --all
@@ -167,6 +177,11 @@ jobs:
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash -s 'bleeding'
           echo "$HOME/.moon/bin" >> $GITHUB_PATH
+
+      - name: install deps
+        run: |
+          moon update
+          moon add moonbitlang/x
 
       - name: moon version
         run: |
