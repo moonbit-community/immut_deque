@@ -31,6 +31,7 @@ jobs:
       
       - name: install deps
         run: |
+          moon update
           moon add moonbitlang/x
 
       - name: moon version
@@ -128,6 +129,7 @@ jobs:
 
       - name: install deps
         run: |
+          moon update
           moon add moonbitlang/x
 
       - name: moon version
@@ -178,8 +180,9 @@ jobs:
 
       - name: install deps
         run: |
+          moon update
           moon add moonbitlang/x
-          
+
       - name: moon version
         run: |
           moon version --all
