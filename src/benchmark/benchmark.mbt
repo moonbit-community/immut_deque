@@ -101,6 +101,7 @@ fn benchmark_immut_mut() -> Unit {
   println(r["deque::push_front/push_back"])
 }
 
+///|
 test "benchmark" {
 
 }

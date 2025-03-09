@@ -38,6 +38,7 @@ fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
   @immut/list.concat(other._, self._)
 }
 
+///|
 test "append" {
   let xs = [1, 2, 3] |> Tsil::of
   let ys = [4, 5, 6] |> Tsil::of
@@ -51,15 +52,18 @@ fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
   xs.fold(init=Tsil(Nil), Tsil::snoc)
 }
 
+///|
 test "Tsil::of/empty" {
   let empty : FixedArray[Int] = []
   inspect!(Tsil::of(empty), content="@tsil.of([])")
 }
 
+///|
 test "Tsil::of/single" {
   inspect!(Tsil::of([1]), content="@tsil.of([1])")
 }
 
+///|
 test "Tsil::of/multiple" {
   inspect!(Tsil::of([1, 2, 3, 4, 5]), content="@tsil.of([1, 2, 3, 4, 5])")
 }

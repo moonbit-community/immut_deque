@@ -33,6 +33,7 @@ fn List::append[A](self : List[A], other : List[A]) -> List[A] {
   @immut/list.concat(self._, other._)
 }
 
+///|
 test "append" {
   let xs = [1, 2, 3] |> List::of
   let ys = [4, 5, 6] |> List::of
