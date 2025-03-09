@@ -5,6 +5,8 @@ alias @moonbitlang/core/immut/list as @list
 // Values
 fn empty[A]() -> T[A]
 
+fn from_iter[A](Iter[A]) -> T[A]
+
 fn from_list[A](@list.T[A]) -> T[A]
 
 fn from_rev_list[A](@list.T[A]) -> T[A]
@@ -17,14 +19,24 @@ impl T {
   append[A](Self[A], Self[A]) -> Self[A]
   bind[A, B](Self[A], (A) -> Self[B]) -> Self[B]
   cons[A](Self[A], A) -> Self[A]
+  drop[A](Self[A], Int) -> Self[A]
+  dropWhile[A](Self[A], (A) -> Bool) -> Self[A]
+  filter[A](Self[A], (A) -> Bool) -> Self[A]
+  filter_map[A, B](Self[A], (A) -> B?) -> Self[B]
   foldl[A, B](Self[A], (B, A) -> B, B) -> B
   foldr[A, B](Self[A], (B, A) -> B, B) -> B
+  head[A](Self[A]) -> A?
+  init_[A](Self[A]) -> Self[A]
   iter[A](Self[A]) -> Iter[A]
   join[A](Self[Self[A]]) -> Self[A]
+  last[A](Self[A]) -> A?
   map[A, B](Self[A], (A) -> B) -> Self[B]
   rev_iter[A](Self[A]) -> Iter[A]
   reverse[A](Self[A]) -> Self[A]
   snoc[A](Self[A], A) -> Self[A]
+  tail[A](Self[A]) -> Self[A]
+  take[A](Self[A], Int) -> Self[A]
+  takeWhile[A](Self[A], (A) -> Bool) -> Self[A]
   to_array[A](Self[A]) -> Array[A]
   uncons[A](Self[A]) -> (A, Self[A])?
   unsnoc[A](Self[A]) -> (A, Self[A])?
