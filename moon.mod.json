@@ -9,7 +9,8 @@
   "license": "Apache-2.0",
   "keywords": [
     "functional-programming",
-    "data-structure"
+    "data-structure",
+    "deque"
   ],
   "description": "immutable double ended queue",
   "source": "src"
