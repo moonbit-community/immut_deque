@@ -47,6 +47,11 @@ jobs:
           moon info --target wasm,wasm-gc,js,native
           git diff --exit-code
 
+      - name: moon fmt
+        run: |
+          moon fmt
+          git diff --exit-code
+      
       - name: Set ulimit and run moon test
         if: ${{ matrix.os != 'windows-latest' }}
         run: |
