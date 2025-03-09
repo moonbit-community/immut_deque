@@ -140,3 +140,15 @@ pub fn of[A](xs : FixedArray[A]) -> T[A] {
 pub fn empty[A]() -> T[A] {
   (List(Nil), Tsil(Nil))
 }
+
+///|
+pub fn filter[A](self : T[A], f : (A) -> Bool) -> T[A] {
+  let (lst, tsl) = self._
+  (lst._.filter(f), tsl._.filter(f))
+}
+
+///|
+pub fn filter_map[A, B](self : T[A], f : (A) -> B?) -> T[B] {
+  let (lst, tsl) = self._
+  (lst._.filter_map(f), tsl._.filter_map(f))
+}

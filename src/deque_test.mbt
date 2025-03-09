@@ -416,3 +416,59 @@ test "unsnoc" {
   }
   inspect!(d.rev_iter().to_array() == uncons, content="true")
 }
+
+///|
+test "@immut_deque.filter/empty" {
+  // Test filtering an empty deque should result in an empty deque
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(empty.filter(fn(x) { true }), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.filter/all" {
+  // Test filtering with a predicate that matches all elements
+  let deque = @immut_deque.of([1, 2, 3, 4, 5])
+  let all_true = fn(_ : Int) { true }
+  inspect!(deque.filter(all_true), content="@deque.of([1, 2, 3, 4, 5])")
+
+  // Test filtering with a predicate that matches no elements
+  let all_false = fn(_ : Int) { false }
+  inspect!(deque.filter(all_false), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.filter/even_odd" {
+  // Test filtering with a more complex predicate
+  let deque = @immut_deque.of([1, 2, 3, 4, 5, 6])
+  let is_even = fn(x : Int) { x % 2 == 0 }
+  inspect!(deque.filter(is_even), content="@deque.of([2, 4, 6])")
+  let is_odd = fn(x : Int) { not(x % 2 == 0) }
+  inspect!(deque.filter(is_odd), content="@deque.of([1, 3, 5])")
+}
+
+///|
+test "@immut_deque.filter_map/empty" {
+  let empty = @immut_deque.empty()
+  let mapped = empty.filter_map(fn(x : Int) -> Int? { Some(x + 1) })
+  inspect!(mapped, content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.filter_map/all_none" {
+  let deque = @immut_deque.of([1, 2, 3, 4, 5])
+  let mapped = deque.filter_map(fn(_ : Int) -> Int? { None })
+  inspect!(mapped, content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.filter_map/mixed" {
+  let deque = @immut_deque.of([1, 2, 3, 4, 5])
+  let mapped = deque.filter_map(fn(x : Int) -> Int? {
+    if x % 2 == 0 {
+      Some(x * 2)
+    } else {
+      None
+    }
+  })
+  inspect!(mapped, content="@deque.of([4, 8])")
+}
