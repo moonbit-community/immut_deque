@@ -633,7 +633,6 @@ test "@immut_deque.drop/all" {
   inspect!(@immut_deque.drop(deque, 3), content="@deque.of([])")
 }
 
-
 ///|
 test "@immut_deque.takeWhile" {
   // Empty deque
