@@ -72,3 +72,8 @@ test "Tsil::of/multiple" {
 impl[A : Show] Show for Tsil[A] with output(self, logger) {
   logger.write_iter(self.iter(), prefix="@tsil.of([", suffix="])")
 }
+
+///|
+fn Tsil::empty[A]() -> Tsil[A] {
+  @immut/list.Nil
+}

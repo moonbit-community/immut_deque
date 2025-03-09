@@ -48,6 +48,11 @@ fn List::of[A](xs : FixedArray[A]) -> List[A] {
 }
 
 ///|
+fn List::empty[A]() -> List[A] {
+  @immut/list.Nil
+}
+
+///|
 impl[A : Show] Show for List[A] with output(self, logger) {
   self._.output(logger)
 }

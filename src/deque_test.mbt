@@ -547,3 +547,104 @@ test "@immut_deque.head/multiple" {
   let xs = @immut_deque.of([1, 2, 3, 4, 5])
   inspect!(xs.head(), content="Some(1)")
 }
+
+///|
+test "@immut_deque.take" {
+  // Basic functionality: take first n elements
+  let deq = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(@immut_deque.take(deq, 3), content="@deque.of([1, 2, 3])")
+}
+
+///|
+test "@immut_deque.take/empty" {
+  // Taking from empty deque should return empty deque
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.take(empty, 5), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.take/overflow" {
+  // Taking more elements than available should return all elements
+  let deq = @immut_deque.of([1, 2, 3])
+  inspect!(@immut_deque.take(deq, 100), content="@deque.of([1, 2, 3])")
+}
+
+///|
+test "@deque.from_iter/empty" {
+  let empty_iter : Iter[Int] = Iter::empty()
+  inspect!(@deque.from_iter(empty_iter), content="@deque.of([])")
+}
+
+///|
+test "@deque.from_iter/single" {
+  let single = Iter::singleton(42)
+  inspect!(@deque.from_iter(single), content="@deque.of([42])")
+}
+
+///|
+test "@deque.from_iter/multiple" {
+  let arr = [1, 2, 3, 4, 5]
+  let iter = arr.iter()
+  inspect!(@deque.from_iter(iter), content="@deque.of([1, 2, 3, 4, 5])")
+}
+
+///|
+test "@immut_deque.dropWhile/empty" {
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(
+    @immut_deque.dropWhile(empty, fn(x) { true }),
+    content="@deque.of([])",
+  )
+}
+
+///|
+test "@immut_deque.dropWhile/all" {
+  let xs = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(@immut_deque.dropWhile(xs, fn(x) { true }), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.dropWhile/none" {
+  let xs = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(
+    @immut_deque.dropWhile(xs, fn(x) { false }),
+    content="@deque.of([1, 2, 3, 4, 5])",
+  )
+}
+
+///|
+test "@immut_deque.drop" {
+  // Test dropping nothing from empty deque
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.drop(empty, 0), content="@deque.of([])")
+
+  // Test dropping nothing from non-empty deque
+  let deque = @immut_deque.of([1, 2, 3])
+  inspect!(@immut_deque.drop(deque, 0), content="@deque.of([1, 2, 3])")
+
+  // Test dropping some elements
+  inspect!(@immut_deque.drop(deque, 2), content="@deque.of([3])")
+}
+
+///|
+test "@immut_deque.drop/all" {
+  // Test dropping exact number of elements
+  let deque = @immut_deque.of([1, 2, 3])
+  inspect!(@immut_deque.drop(deque, 3), content="@deque.of([])")
+}
+
+
+///|
+test "@immut_deque.takeWhile" {
+  // Empty deque
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(empty.takeWhile(fn(_) { true }), content="@deque.of([])")
+
+  // Take all elements (predicate always true)
+  let xs = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(xs.takeWhile(fn(_) { true }), content="@deque.of([1, 2, 3, 4, 5])")
+
+  // Take no elements (predicate always false)
+  let ys = @immut_deque.of([1, 2, 3])
+  inspect!(ys.takeWhile(fn(_) { false }), content="@deque.of([])")
+}

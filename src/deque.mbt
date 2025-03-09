@@ -137,6 +137,16 @@ pub fn of[A](xs : FixedArray[A]) -> T[A] {
 }
 
 ///|
+pub fn from_iter[A](xs : Iter[A]) -> T[A] {
+  let mut tsl = Tsil::empty()
+  xs.just_run(fn(x) {
+    tsl = tsl.snoc(x)
+    IterContinue
+  })
+  (List::empty(), tsl)
+}
+
+///|
 pub fn empty[A]() -> T[A] {
   (List(Nil), Tsil(Nil))
 }
@@ -177,4 +187,24 @@ pub fn init_[A](self : T[A]) -> T[A] {
     None => empty()
     Some((_, xs)) => xs
   }
+}
+
+///|
+pub fn take[A](self : T[A], n : Int) -> T[A] {
+  self.iter().take(n) |> from_iter
+}
+
+///|
+pub fn drop[A](self : T[A], n : Int) -> T[A] {
+  self.iter().drop(n) |> from_iter
+}
+
+///|
+pub fn takeWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
+  self.iter().take_while(f) |> from_iter
+}
+
+///|
+pub fn dropWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
+  self.iter().drop_while(f) |> from_iter
 }
