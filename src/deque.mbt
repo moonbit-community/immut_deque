@@ -152,3 +152,29 @@ pub fn filter_map[A, B](self : T[A], f : (A) -> B?) -> T[B] {
   let (lst, tsl) = self._
   (lst._.filter_map(f), tsl._.filter_map(f))
 }
+
+///|
+pub fn head[A](self : T[A]) -> A? {
+  self.uncons().map(@tuple.fst)
+}
+
+///|
+pub fn last[A](self : T[A]) -> A? {
+  self.unsnoc().map(@tuple.fst)
+}
+
+///|
+pub fn tail[A](self : T[A]) -> T[A] {
+  match self.uncons() {
+    None => empty()
+    Some((_, xs)) => xs
+  }
+}
+
+///|
+pub fn init_[A](self : T[A]) -> T[A] {
+  match self.unsnoc() {
+    None => empty()
+    Some((_, xs)) => xs
+  }
+}

@@ -472,3 +472,78 @@ test "@immut_deque.filter_map/mixed" {
   })
   inspect!(mapped, content="@deque.of([4, 8])")
 }
+
+///|
+test "@immut_deque.init_/empty" {
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.init_(empty), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.init_/single" {
+  let single = @immut_deque.of([1])
+  inspect!(@immut_deque.init_(single), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.init_/multiple" {
+  let multiple = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(@immut_deque.init_(multiple), content="@deque.of([1, 2, 3, 4])")
+}
+
+///|
+test "@immut_deque.tail/empty" {
+  // Test empty deque
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(@immut_deque.tail(empty), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.tail/single" {
+  // Test deque with single element
+  let single = @immut_deque.of([1])
+  inspect!(@immut_deque.tail(single), content="@deque.of([])")
+}
+
+///|
+test "@immut_deque.tail/multiple" {
+  // Test deque with multiple elements
+  let multiple = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(@immut_deque.tail(multiple), content="@deque.of([2, 3, 4, 5])")
+}
+
+///|
+test "@immut_deque.last/empty" {
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(empty.last(), content="None")
+}
+
+///|
+test "@immut_deque.last/single" {
+  let d = @immut_deque.of([42])
+  inspect!(d.last(), content="Some(42)")
+}
+
+///|
+test "@immut_deque.last/multiple" {
+  let d = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(d.last(), content="Some(5)")
+}
+
+///|
+test "@immut_deque.head/empty" {
+  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  inspect!(empty.head(), content="None")
+}
+
+///|
+test "@immut_deque.head/single" {
+  let xs = @immut_deque.of([42])
+  inspect!(xs.head(), content="Some(42)")
+}
+
+///|
+test "@immut_deque.head/multiple" {
+  let xs = @immut_deque.of([1, 2, 3, 4, 5])
+  inspect!(xs.head(), content="Some(1)")
+}
