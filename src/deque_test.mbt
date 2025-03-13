@@ -328,23 +328,23 @@ test "@immut_deque.map/multiple_elements" {
 ///|
 test "@immut_deque.foldl/empty" {
   let empty = @immut_deque.empty()
-  inspect!(@immut_deque.foldl(empty, fn(acc, x) { acc + x }, 0), content="0")
+  inspect!(@immut_deque.foldl(empty, 0, fn(acc, x) { acc + x }), content="0")
 }
 
 ///|
 test "@immut_deque.foldl/single" {
   let deque = @immut_deque.of([5])
-  inspect!(@immut_deque.foldl(deque, fn(acc, x) { acc + x }, 0), content="5")
+  inspect!(@immut_deque.foldl(deque, 0, fn(acc, x) { acc + x }), content="5")
 }
 
 ///|
 test "@immut_deque.foldl/multiple" {
   let deque = empty().snoc(4).snoc(5).cons(3).cons(2).cons(1)
   // Test sum
-  inspect!(@immut_deque.foldl(deque, fn(acc, x) { acc + x }, 0), content="15")
+  inspect!(@immut_deque.foldl(deque, 0, fn(acc, x) { acc + x }), content="15")
   // Test string concatenation
   inspect!(
-    @immut_deque.foldl(deque, fn(acc, x) { acc + x.to_string() }, ""),
+    @immut_deque.foldl(deque, "", fn(acc, x) { acc + x.to_string() }),
     content="12345",
   )
 }
@@ -352,13 +352,13 @@ test "@immut_deque.foldl/multiple" {
 ///|
 test "@immut_deque.foldr/empty" {
   let empty : T[Int] = @immut_deque.empty()
-  inspect!(@immut_deque.foldr(empty, fn(acc, x) { acc + x }, 0), content="0")
+  inspect!(@immut_deque.foldr(empty, 0, fn(acc, x) { acc + x }), content="0")
 }
 
 ///|
 test "@immut_deque.foldr/single_element" {
   let d = @immut_deque.of([42])
-  inspect!(@immut_deque.foldr(d, fn(acc, x) { acc + x }, 0), content="42")
+  inspect!(@immut_deque.foldr(d, 0, fn(acc, x) { acc + x }), content="42")
 }
 
 ///|
@@ -366,7 +366,7 @@ test "@immut_deque.foldr/multiple_elements" {
   // Testing right associativity with subtraction
   let d = @immut_deque.of([1, 2, 3])
   // Should compute as: 1 - (2 - (3 - 10)) = 1 - (2 - (-7)) = 1 - 9 = -8
-  inspect!(@immut_deque.foldr(d, fn(acc, x) { x - acc }, 10), content="-8")
+  inspect!(@immut_deque.foldr(d, 10, fn(acc, x) { x - acc }), content="-8")
 }
 
 ///|

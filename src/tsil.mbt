@@ -14,12 +14,12 @@ fn flip[B, A, C](f : (B, A) -> C) -> (A, B) -> C {
 }
 
 ///|
-fn Tsil::foldl[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
-  self._.rev_fold(flip(f), init=z)
+fn Tsil::foldl[A, B](self : Tsil[A], z : B, f : (B, A) -> B) -> B {
+  self._.rev().fold(f, init=z)
 }
 
 ///|
-fn Tsil::foldr[A, B](self : Tsil[A], f : (B, A) -> B, z : B) -> B {
+fn Tsil::foldr[A, B](self : Tsil[A], z : B, f : (B, A) -> B) -> B {
   self._.fold(f, init=z)
 }
 

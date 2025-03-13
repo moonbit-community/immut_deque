@@ -14,8 +14,8 @@ fn List::foldl[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
 }
 
 ///|
-fn List::foldr[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
-  self._.rev_fold(flip(f), init=z)
+fn List::foldr[A, B](self : List[A], z : B, f : (B, A) -> B) -> B {
+  self._.rev().fold(init=z, f)
 }
 
 ///|
