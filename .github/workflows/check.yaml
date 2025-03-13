@@ -32,7 +32,7 @@ jobs:
       - name: install deps
         run: |
           moon update
-          moon add moonbitlang/x
+          moon install
 
       - name: moon version
         run: |
