@@ -148,6 +148,11 @@ pub fn from_iter[A](xs : Iter[A]) -> T[A] {
 
 ///|
 pub fn empty[A]() -> T[A] {
+  T::empty()
+}
+
+///|
+pub fn T::empty[A]() -> T[A] {
   (List(Nil), Tsil(Nil))
 }
 
@@ -209,6 +214,7 @@ pub fn dropWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
   self.iter().drop_while(f) |> from_iter
 }
 
+///|
 pub fn singleton[A](x : A) -> T[A] {
-  (Cons(x,Nil),Nil)
+  (Cons(x, Nil), Nil)
 }

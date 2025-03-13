@@ -3,7 +3,25 @@ package illusory0x0/immut_deque
 alias @moonbitlang/core/immut/list as @list
 
 // Values
+fn append[A](T[A], T[A]) -> T[A]
+
+fn bind[A, B](T[A], (A) -> T[B]) -> T[B]
+
+fn cons[A](T[A], A) -> T[A]
+
+fn drop[A](T[A], Int) -> T[A]
+
+fn dropWhile[A](T[A], (A) -> Bool) -> T[A]
+
 fn empty[A]() -> T[A]
+
+fn filter[A](T[A], (A) -> Bool) -> T[A]
+
+fn filter_map[A, B](T[A], (A) -> B?) -> T[B]
+
+fn foldl[A, B](T[A], B, (B, A) -> B) -> B
+
+fn foldr[A, B](T[A], B, (B, A) -> B) -> B
 
 fn from_iter[A](Iter[A]) -> T[A]
 
@@ -11,7 +29,39 @@ fn from_list[A](@list.T[A]) -> T[A]
 
 fn from_rev_list[A](@list.T[A]) -> T[A]
 
+fn head[A](T[A]) -> A?
+
+fn init_[A](T[A]) -> T[A]
+
+fn iter[A](T[A]) -> Iter[A]
+
+fn join[A](T[T[A]]) -> T[A]
+
+fn last[A](T[A]) -> A?
+
+fn map[A, B](T[A], (A) -> B) -> T[B]
+
 fn of[A](FixedArray[A]) -> T[A]
+
+fn rev_iter[A](T[A]) -> Iter[A]
+
+fn reverse[A](T[A]) -> T[A]
+
+fn singleton[A](A) -> T[A]
+
+fn snoc[A](T[A], A) -> T[A]
+
+fn tail[A](T[A]) -> T[A]
+
+fn take[A](T[A], Int) -> T[A]
+
+fn takeWhile[A](T[A], (A) -> Bool) -> T[A]
+
+fn to_array[A](T[A]) -> Array[A]
+
+fn uncons[A](T[A]) -> (A, T[A])?
+
+fn unsnoc[A](T[A]) -> (A, T[A])?
 
 // Types and methods
 type T[A]
@@ -21,10 +71,11 @@ impl T {
   cons[A](Self[A], A) -> Self[A]
   drop[A](Self[A], Int) -> Self[A]
   dropWhile[A](Self[A], (A) -> Bool) -> Self[A]
+  empty[A]() -> Self[A]
   filter[A](Self[A], (A) -> Bool) -> Self[A]
   filter_map[A, B](Self[A], (A) -> B?) -> Self[B]
-  foldl[A, B](Self[A], (B, A) -> B, B) -> B
-  foldr[A, B](Self[A], (B, A) -> B, B) -> B
+  foldl[A, B](Self[A], B, (B, A) -> B) -> B
+  foldr[A, B](Self[A], B, (B, A) -> B) -> B
   head[A](Self[A]) -> A?
   init_[A](Self[A]) -> Self[A]
   iter[A](Self[A]) -> Iter[A]
