@@ -208,3 +208,7 @@ pub fn takeWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
 pub fn dropWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
   self.iter().drop_while(f) |> from_iter
 }
+
+pub fn singleton[A](x : A) -> T[A] {
+  (Cons(x,Nil),Nil)
+}
