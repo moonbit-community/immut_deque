@@ -76,12 +76,16 @@ impl T {
   filter_map[A, B](Self[A], (A) -> B?) -> Self[B]
   foldl[A, B](Self[A], B, (B, A) -> B) -> B
   foldr[A, B](Self[A], B, (B, A) -> B) -> B
+  from_iter[A](Iter[A]) -> Self[A]
+  from_list[A](@list.T[A]) -> Self[A]
+  from_rev_list[A](@list.T[A]) -> Self[A]
   head[A](Self[A]) -> A?
   init_[A](Self[A]) -> Self[A]
   iter[A](Self[A]) -> Iter[A]
   join[A](Self[Self[A]]) -> Self[A]
   last[A](Self[A]) -> A?
   map[A, B](Self[A], (A) -> B) -> Self[B]
+  of[A](FixedArray[A]) -> Self[A]
   rev_iter[A](Self[A]) -> Iter[A]
   reverse[A](Self[A]) -> Self[A]
   snoc[A](Self[A], A) -> Self[A]

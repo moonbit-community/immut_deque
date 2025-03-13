@@ -90,16 +90,6 @@ pub fn join[A](self : T[T[A]]) -> T[A] {
 }
 
 ///|
-pub fn from_list[A](xs : @immut/list.T[A]) -> T[A] {
-  (List(xs), Tsil(Nil))
-}
-
-///|
-pub fn from_rev_list[A](xs : @immut/list.T[A]) -> T[A] {
-  (List(Nil), Tsil(xs))
-}
-
-///|
 pub fn iter[A](self : T[A]) -> Iter[A] {
   Iter::new(fn(k) {
     let (lst, tsl) = self._
@@ -129,31 +119,6 @@ pub fn to_array[A](self : T[A]) -> Array[A] {
 ///|
 pub impl[A : Show] Show for T[A] with output(xs, logger) {
   logger.write_iter(xs.iter(), prefix="@deque.of([", suffix="])")
-}
-
-///|
-pub fn of[A](xs : FixedArray[A]) -> T[A] {
-  xs |> @immut/list.of |> from_list
-}
-
-///|
-pub fn from_iter[A](xs : Iter[A]) -> T[A] {
-  let mut tsl = Tsil::empty()
-  xs.just_run(fn(x) {
-    tsl = tsl.snoc(x)
-    IterContinue
-  })
-  (List::empty(), tsl)
-}
-
-///|
-pub fn empty[A]() -> T[A] {
-  T::empty()
-}
-
-///|
-pub fn T::empty[A]() -> T[A] {
-  (List(Nil), Tsil(Nil))
 }
 
 ///|
@@ -217,4 +182,34 @@ pub fn dropWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
 ///|
 pub fn singleton[A](x : A) -> T[A] {
   (Cons(x, Nil), Nil)
+}
+
+///|
+pub fn of[A](xs : FixedArray[A]) -> T[A] {
+  T::of(xs)
+}
+
+///|
+pub fn from_iter[A](xs : Iter[A]) -> T[A] {
+  T::from_iter(xs)
+}
+
+///|
+pub fn empty[A]() -> T[A] {
+  T::empty()
+}
+
+///|
+pub fn from_list[A](xs : @immut/list.T[A]) -> T[A] {
+  T::from_list(xs)
+}
+
+///|
+pub fn from_rev_list[A](xs : @immut/list.T[A]) -> T[A] {
+  T::from_rev_list(xs)
+}
+
+///|
+pub fn T::empty[A]() -> T[A] {
+  (List(Nil), Tsil(Nil))
 }
