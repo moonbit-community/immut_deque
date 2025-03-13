@@ -647,3 +647,31 @@ test "@immut_deque.takeWhile" {
   let ys = @immut_deque.of([1, 2, 3])
   inspect!(ys.takeWhile(fn(_) { false }), content="@deque.of([])")
 }
+
+///|
+test "overflow/@immut/list" {
+  let iter = Int::until(0, 1 << 20)
+  let lst = @immut/list.from_iter(iter)
+  inspect!(
+    lst.fold(init=0.0, fn(acc, x) { acc + x.to_double() }),
+    content="549755289600",
+  )
+  inspect!(
+    lst.rev().fold(init=0.0, fn(acc, x) { acc + x.to_double() }),
+    content="549755289600",
+  )
+}
+
+///|
+test "overflow" {
+  let iter = Int::until(0, 1 << 20)
+  let deque = from_iter(iter)
+  inspect!(
+    deque.foldl(0.0, fn(acc, x) { acc + x.to_double() }),
+    content="549755289600",
+  )
+  inspect!(
+    deque.foldr(0.0, fn(acc, x) { acc + x.to_double() }),
+    content="549755289600",
+  )
+}
