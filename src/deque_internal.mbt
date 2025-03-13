@@ -17,3 +17,8 @@ pub fn T::of[A](xs : FixedArray[A]) -> T[A] {
 pub fn T::from_iter[A](xs : Iter[A]) -> T[A] {
   (List::empty(), @immut/list.from_iter_rev(xs))
 }
+
+///|
+pub fn T::singleton[A](x : A) -> T[A] {
+  (Cons(x, Nil), Nil)
+}

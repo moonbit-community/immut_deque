@@ -181,7 +181,7 @@ pub fn dropWhile[A](self : T[A], f : (A) -> Bool) -> T[A] {
 
 ///|
 pub fn singleton[A](x : A) -> T[A] {
-  (Cons(x, Nil), Nil)
+  T::singleton(x)
 }
 
 ///|

@@ -88,6 +88,7 @@ impl T {
   of[A](FixedArray[A]) -> Self[A]
   rev_iter[A](Self[A]) -> Iter[A]
   reverse[A](Self[A]) -> Self[A]
+  singleton[A](A) -> Self[A]
   snoc[A](Self[A], A) -> Self[A]
   tail[A](Self[A]) -> Self[A]
   take[A](Self[A], Int) -> Self[A]
