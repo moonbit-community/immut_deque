@@ -29,11 +29,11 @@ pub fn reverse[A](self : T[A]) -> T[A] {
 pub fn uncons[A](self : T[A]) -> (A, T[A])? {
   let (lst, tsl) = self._
   match lst._ {
-    Cons(head, tail) => Some((head, (List(tail), tsl)))
-    Nil =>
+    More(head, tail~) => Some((head, (List(tail), tsl)))
+    Empty =>
       match tsl._.rev() {
-        Cons(head, tail) => Some((head, (List(tail), Tsil(Nil))))
-        Nil => None
+        More(head, tail~) => Some((head, (List(tail), Tsil::empty())))
+        Empty => None
       }
   }
 }
@@ -42,11 +42,11 @@ pub fn uncons[A](self : T[A]) -> (A, T[A])? {
 pub fn unsnoc[A](self : T[A]) -> (A, T[A])? {
   let (lst, tsl) = self._
   match tsl._ {
-    Cons(last, init) => Some((last, (lst, Tsil(init))))
-    Nil =>
+    More(last, tail=init) => Some((last, (lst, Tsil(init))))
+    Empty =>
       match lst._.rev() {
-        Cons(last, init) => Some((last, (List(Nil), Tsil(init))))
-        Nil => None
+        More(last, tail=init) => Some((last, (List::empty(), Tsil(init))))
+        Empty => None
       }
   }
 }
@@ -79,9 +79,9 @@ pub fn bind[A, B](self : T[A], k : (A) -> T[B]) -> T[B] {
   }
 
   let (lst, tsl) = self._
-  let z = tsl.reverse().foldl(step, List(Nil))
+  let z = tsl.reverse().foldl(step, List::empty())
   let lst = lst.foldr(z, step)
-  (lst, Tsil(Nil))
+  (lst, Tsil::empty())
 }
 
 ///|
@@ -200,16 +200,16 @@ pub fn empty[A]() -> T[A] {
 }
 
 ///|
-pub fn from_list[A](xs : @immut/list.T[A]) -> T[A] {
+pub fn from_list[A](xs : @list.T[A]) -> T[A] {
   T::from_list(xs)
 }
 
 ///|
-pub fn from_rev_list[A](xs : @immut/list.T[A]) -> T[A] {
+pub fn from_rev_list[A](xs : @list.T[A]) -> T[A] {
   T::from_rev_list(xs)
 }
 
 ///|
 pub fn T::empty[A]() -> T[A] {
-  (List(Nil), Tsil(Nil))
+  (List::empty(), Tsil::empty())
 }

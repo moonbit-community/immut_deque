@@ -1,6 +1,6 @@
 ///|
 fn Tsil::snoc[A](self : Tsil[A], x : A) -> Tsil[A] {
-  self._.add(x)
+  @list.construct(x, self._)
 }
 
 ///|
@@ -35,7 +35,7 @@ fn Tsil::rev_iter[A](self : Tsil[A]) -> Iter[A] {
 
 ///|
 fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  @immut/list.concat(other._, self._)
+  @list.concat(other._, self._)
 }
 
 ///|
@@ -49,7 +49,7 @@ test "append" {
 
 ///|
 fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
-  xs.fold(init=Tsil(Nil), Tsil::snoc)
+  xs.fold(init=Tsil::empty(), Tsil::snoc)
 }
 
 ///|
@@ -75,5 +75,5 @@ impl[A : Show] Show for Tsil[A] with output(self, logger) {
 
 ///|
 fn Tsil::empty[A]() -> Tsil[A] {
-  @immut/list.Nil
+  @list.empty()
 }

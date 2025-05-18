@@ -1,4 +1,4 @@
-package illusory0x0/immut_deque/benchmark
+package "illusory0x0/immut_deque/benchmark"
 
 // Values
 
