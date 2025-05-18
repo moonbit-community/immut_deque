@@ -1,6 +1,6 @@
 ///|
 fn List::cons[A](self : List[A], x : A) -> List[A] {
-  self._.add(x)
+  @list.construct(x, self._)
 }
 
 ///|
@@ -30,7 +30,7 @@ fn List::rev_iter[A](self : List[A]) -> Iter[A] {
 
 ///|
 fn List::append[A](self : List[A], other : List[A]) -> List[A] {
-  @immut/list.concat(self._, other._)
+  @list.concat(self._, other._)
 }
 
 ///|
@@ -44,12 +44,12 @@ test "append" {
 
 ///|
 fn List::of[A](xs : FixedArray[A]) -> List[A] {
-  xs |> @immut/list.of
+  xs |> @list.of
 }
 
 ///|
 fn List::empty[A]() -> List[A] {
-  @immut/list.Nil
+  @list.empty()
 }
 
 ///|

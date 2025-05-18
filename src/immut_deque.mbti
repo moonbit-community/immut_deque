@@ -1,6 +1,8 @@
-package illusory0x0/immut_deque
+package "illusory0x0/immut_deque"
 
-alias @moonbitlang/core/immut/list as @list
+import(
+  "moonbitlang/core/list"
+)
 
 // Values
 fn append[A](T[A], T[A]) -> T[A]
