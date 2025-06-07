@@ -1,36 +1,36 @@
 ///|
-fn List::cons[A](self : List[A], x : A) -> List[A] {
+fn[A] List::cons(self : List[A], x : A) -> List[A] {
   @list.construct(x, self._)
 }
 
 ///|
-fn List::reverse[A](self : List[A]) -> Tsil[A] {
+fn[A] List::reverse(self : List[A]) -> Tsil[A] {
   self._
 }
 
 ///|
-fn List::foldl[A, B](self : List[A], f : (B, A) -> B, z : B) -> B {
+fn[A, B] List::foldl(self : List[A], f : (B, A) -> B, z : B) -> B {
   self._.fold(f, init=z)
 }
 
 ///|
-fn List::foldr[A, B](self : List[A], z : B, f : (B, A) -> B) -> B {
+fn[A, B] List::foldr(self : List[A], z : B, f : (B, A) -> B) -> B {
   self._.rev().fold(init=z, f)
 }
 
 ///|
-fn List::iter[A](self : List[A]) -> Iter[A] {
+fn[A] List::iter(self : List[A]) -> Iter[A] {
   self._.iter()
 }
 
 ///|
-fn List::rev_iter[A](self : List[A]) -> Iter[A] {
+fn[A] List::rev_iter(self : List[A]) -> Iter[A] {
   self._.rev().iter()
 }
 
 ///|
-fn List::append[A](self : List[A], other : List[A]) -> List[A] {
-  @list.concat(self._, other._)
+fn[A] List::append(self : List[A], other : List[A]) -> List[A] {
+  @list.T::concat(self._, other._)
 }
 
 ///|
@@ -43,12 +43,12 @@ test "append" {
 }
 
 ///|
-fn List::of[A](xs : FixedArray[A]) -> List[A] {
+fn[A] List::of(xs : FixedArray[A]) -> List[A] {
   xs |> @list.of
 }
 
 ///|
-fn List::empty[A]() -> List[A] {
+fn[A] List::empty() -> List[A] {
   @list.empty()
 }
 

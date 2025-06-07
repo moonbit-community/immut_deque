@@ -1,41 +1,41 @@
 ///|
-fn Tsil::snoc[A](self : Tsil[A], x : A) -> Tsil[A] {
+fn[A] Tsil::snoc(self : Tsil[A], x : A) -> Tsil[A] {
   @list.construct(x, self._)
 }
 
 ///|
-fn Tsil::reverse[A](self : Tsil[A]) -> List[A] {
+fn[A] Tsil::reverse(self : Tsil[A]) -> List[A] {
   self._
 }
 
 ///|
-fn flip[B, A, C](f : (B, A) -> C) -> (A, B) -> C {
+fn[B, A, C] flip(f : (B, A) -> C) -> (A, B) -> C {
   fn(a, b) { f(b, a) }
 }
 
 ///|
-fn Tsil::foldl[A, B](self : Tsil[A], z : B, f : (B, A) -> B) -> B {
+fn[A, B] Tsil::foldl(self : Tsil[A], z : B, f : (B, A) -> B) -> B {
   self._.rev().fold(f, init=z)
 }
 
 ///|
-fn Tsil::foldr[A, B](self : Tsil[A], z : B, f : (B, A) -> B) -> B {
+fn[A, B] Tsil::foldr(self : Tsil[A], z : B, f : (B, A) -> B) -> B {
   self._.fold(f, init=z)
 }
 
 ///|
-fn Tsil::iter[A](self : Tsil[A]) -> Iter[A] {
+fn[A] Tsil::iter(self : Tsil[A]) -> Iter[A] {
   self._.rev().iter()
 }
 
 ///|
-fn Tsil::rev_iter[A](self : Tsil[A]) -> Iter[A] {
+fn[A] Tsil::rev_iter(self : Tsil[A]) -> Iter[A] {
   self._.iter()
 }
 
 ///|
-fn Tsil::append[A](self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  @list.concat(other._, self._)
+fn[A] Tsil::append(self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
+  @list.T::concat(other._, self._)
 }
 
 ///|
@@ -48,7 +48,7 @@ test "append" {
 }
 
 ///|
-fn Tsil::of[A](xs : FixedArray[A]) -> Tsil[A] {
+fn[A] Tsil::of(xs : FixedArray[A]) -> Tsil[A] {
   xs.fold(init=Tsil::empty(), Tsil::snoc)
 }
 
@@ -74,6 +74,6 @@ impl[A : Show] Show for Tsil[A] with output(self, logger) {
 }
 
 ///|
-fn Tsil::empty[A]() -> Tsil[A] {
+fn[A] Tsil::empty() -> Tsil[A] {
   @list.empty()
 }
