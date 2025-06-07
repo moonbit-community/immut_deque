@@ -180,33 +180,33 @@ pub fn[A] T::dropWhile(self : T[A], f : (A) -> Bool) -> T[A] {
 }
 
 ///|
-pub fn[A] T::singleton(x : A) -> T[A] {
-  T::singleton(x)
-}
-
-///|
-pub fn[A] T::of(xs : FixedArray[A]) -> T[A] {
-  T::of(xs)
-}
-
-///|
-pub fn[A] T::from_iter(xs : Iter[A]) -> T[A] {
-  T::from_iter(xs)
+pub fn[A] T::empty() -> T[A] {
+  (List::empty(), Tsil::empty())
 }
 
 ///|
 pub fn[A] T::from_list(xs : @list.T[A]) -> T[A] {
-  T::from_list(xs)
+  (List(xs), Tsil::empty())
 }
 
 ///|
 pub fn[A] T::from_rev_list(xs : @list.T[A]) -> T[A] {
-  T::from_rev_list(xs)
+  (List::empty(), Tsil(xs))
 }
 
 ///|
-pub fn[A] T::empty() -> T[A] {
-  (List::empty(), Tsil::empty())
+pub fn[A] T::of(xs : FixedArray[A]) -> T[A] {
+  @list.of(xs) |> from_list
+}
+
+///|
+pub fn[A] T::from_iter(xs : Iter[A]) -> T[A] {
+  (List::empty(), @list.from_iter_rev(xs))
+}
+
+///|
+pub fn[A] T::singleton(x : A) -> T[A] {
+  (@list.construct(x, @list.empty()), @list.empty())
 }
 
 ///|
