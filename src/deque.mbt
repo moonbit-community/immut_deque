@@ -1,13 +1,13 @@
 ///|
 pub fn[A] T::cons(self : T[A], x : A) -> T[A] {
-  let (lst, tsl) = self._
+  let (lst, tsl) = self.inner()
   (lst.cons(x), tsl)
 }
 
 ///|
 pub fn[A] T::append(self : T[A], other : T[A]) -> T[A] {
-  let (lst1, tsl1) = self._
-  let (lst2, tsl2) = other._
+  let (lst1, tsl1) = self.inner()
+  let (lst2, tsl2) = other.inner()
   let lst = lst1
   let tsl = lst2.foldl(Tsil::snoc, tsl1).append(tsl2)
   (lst, tsl)
@@ -15,23 +15,23 @@ pub fn[A] T::append(self : T[A], other : T[A]) -> T[A] {
 
 ///|
 pub fn[A] T::snoc(self : T[A], x : A) -> T[A] {
-  let (lst, tsl) = self._
+  let (lst, tsl) = self.inner()
   (lst, tsl.snoc(x))
 }
 
 ///|
 pub fn[A] T::reverse(self : T[A]) -> T[A] {
-  let (lst, tsl) = self._
+  let (lst, tsl) = self.inner()
   (tsl.reverse(), lst.reverse())
 }
 
 ///|
 pub fn[A] T::uncons(self : T[A]) -> (A, T[A])? {
-  let (lst, tsl) = self._
-  match lst._ {
+  let (lst, tsl) = self.inner()
+  match lst.inner() {
     More(head, tail~) => Some((head, (List(tail), tsl)))
     Empty =>
-      match tsl._.rev() {
+      match tsl.inner().rev() {
         More(head, tail~) => Some((head, (List(tail), Tsil::empty())))
         Empty => None
       }
@@ -40,11 +40,11 @@ pub fn[A] T::uncons(self : T[A]) -> (A, T[A])? {
 
 ///|
 pub fn[A] T::unsnoc(self : T[A]) -> (A, T[A])? {
-  let (lst, tsl) = self._
-  match tsl._ {
+  let (lst, tsl) = self.inner()
+  match tsl.inner() {
     More(last, tail=init) => Some((last, (lst, Tsil(init))))
     Empty =>
-      match lst._.rev() {
+      match lst.inner().rev() {
         More(last, tail=init) => Some((last, (List::empty(), Tsil(init))))
         Empty => None
       }
@@ -53,20 +53,20 @@ pub fn[A] T::unsnoc(self : T[A]) -> (A, T[A])? {
 
 ///|
 pub fn[A, B] T::map(self : T[A], f : (A) -> B) -> T[B] {
-  let (lst, tsl) = self._
-  (lst._.map(f), tsl._.map(f))
+  let (lst, tsl) = self.inner()
+  (lst.inner().map(f), tsl.inner().map(f))
 }
 
 ///|
 pub fn[A, B] T::foldl(self : T[A], z : B, f : (B, A) -> B) -> B {
-  let (cons, snoc) = self._
+  let (cons, snoc) = self.inner()
   let z = cons.foldl(f, z)
   snoc.foldl(z, f)
 }
 
 ///|
 pub fn[A, B] T::foldr(self : T[A], z : B, f : (B, A) -> B) -> B {
-  let (cons, snoc) = self._
+  let (cons, snoc) = self.inner()
   let z = snoc.foldr(z, f)
   cons.foldr(z, f)
 }
@@ -74,11 +74,11 @@ pub fn[A, B] T::foldr(self : T[A], z : B, f : (B, A) -> B) -> B {
 ///|
 pub fn[A, B] T::bind(self : T[A], k : (A) -> T[B]) -> T[B] {
   fn step(acc : List[B], a : A) -> List[B] {
-    let (lst, tsl) = k(a)._
+    let (lst, tsl) = k(a).inner()
     lst.append(tsl.reverse().append(acc))
   }
 
-  let (lst, tsl) = self._
+  let (lst, tsl) = self.inner()
   let z = tsl.reverse().foldl(step, List::empty())
   let lst = lst.foldr(z, step)
   (lst, Tsil::empty())
@@ -92,7 +92,7 @@ pub fn[A] T::join(self : T[T[A]]) -> T[A] {
 ///|
 pub fn[A] T::iter(self : T[A]) -> Iter[A] {
   Iter::new(fn(k) {
-    let (lst, tsl) = self._
+    let (lst, tsl) = self.inner()
     match lst.iter().run(k) {
       IterContinue => tsl.iter().run(k)
       IterEnd => IterEnd
@@ -103,7 +103,7 @@ pub fn[A] T::iter(self : T[A]) -> Iter[A] {
 ///|
 pub fn[A] T::rev_iter(self : T[A]) -> Iter[A] {
   Iter::new(fn(k) {
-    let (lst, tsl) = self._
+    let (lst, tsl) = self.inner()
     match tsl.rev_iter().run(k) {
       IterContinue => lst.rev_iter().run(k)
       IterEnd => IterEnd
@@ -123,24 +123,24 @@ pub impl[A : Show] Show for T[A] with output(xs, logger) {
 
 ///|
 pub fn[A] T::filter(self : T[A], f : (A) -> Bool) -> T[A] {
-  let (lst, tsl) = self._
-  (lst._.filter(f), tsl._.filter(f))
+  let (lst, tsl) = self.inner()
+  (lst.inner().filter(f), tsl.inner().filter(f))
 }
 
 ///|
 pub fn[A, B] T::filter_map(self : T[A], f : (A) -> B?) -> T[B] {
-  let (lst, tsl) = self._
-  (lst._.filter_map(f), tsl._.filter_map(f))
+  let (lst, tsl) = self.inner()
+  (lst.inner().filter_map(f), tsl.inner().filter_map(f))
 }
 
 ///|
 pub fn[A] T::head(self : T[A]) -> A? {
-  self.uncons().map(@tuple.fst)
+  self.uncons().map(x => x.0)
 }
 
 ///|
 pub fn[A] T::last(self : T[A]) -> A? {
-  self.unsnoc().map(@tuple.fst)
+  self.unsnoc().map(x => x.0)
 }
 
 ///|
