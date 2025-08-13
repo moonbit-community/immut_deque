@@ -1,8 +1,8 @@
 ///|
-priv struct List[A](@list.T[A])
+priv struct List[A](@list.List[A])
 
 ///|
-priv struct Tsil[A](@list.T[A])
+priv struct Tsil[A](@list.List[A])
 
 ///|
-type T[A] (List[A], Tsil[A])
+struct T[A]((List[A], Tsil[A]))

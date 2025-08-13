@@ -30,7 +30,7 @@ fn[A] List::rev_iter(self : List[A]) -> Iter[A] {
 
 ///|
 fn[A] List::append(self : List[A], other : List[A]) -> List[A] {
-  @list.T::concat(self.inner(), other.inner())
+  self.inner() + other.inner()
 }
 
 ///|

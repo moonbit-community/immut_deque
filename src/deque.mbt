@@ -185,12 +185,12 @@ pub fn[A] T::empty() -> T[A] {
 }
 
 ///|
-pub fn[A] T::from_list(xs : @list.T[A]) -> T[A] {
+pub fn[A] T::from_list(xs : @list.List[A]) -> T[A] {
   (List(xs), Tsil::empty())
 }
 
 ///|
-pub fn[A] T::from_rev_list(xs : @list.T[A]) -> T[A] {
+pub fn[A] T::from_rev_list(xs : @list.List[A]) -> T[A] {
   (List::empty(), Tsil(xs))
 }
 
