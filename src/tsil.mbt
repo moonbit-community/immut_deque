@@ -35,7 +35,7 @@ fn[A] Tsil::rev_iter(self : Tsil[A]) -> Iter[A] {
 
 ///|
 fn[A] Tsil::append(self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  @list.T::concat(other.inner(), self.inner())
+  other.inner() + self.inner()
 }
 
 ///|
