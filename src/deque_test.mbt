@@ -83,7 +83,11 @@ test "append" {
 }
 
 ///|
-let xs : @immut_deque.T[Int] = @immut_deque.of([]).cons(2).cons(1).snoc(3).snoc(4)
+let xs : @immut_deque.T[Int] = @immut_deque.of([])
+  .cons(2)
+  .cons(1)
+  .snoc(3)
+  .snoc(4)
 
 ///|
 test {
