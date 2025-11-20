@@ -11,66 +11,66 @@ import(
 
 // Types and methods
 type T[A]
+#as_free_fn(append)
 fn[A] T::append(Self[A], Self[A]) -> Self[A]
-fnalias T::append
+#as_free_fn(bind)
 fn[A, B] T::bind(Self[A], (A) -> Self[B]) -> Self[B]
-fnalias T::bind
+#as_free_fn(cons)
 fn[A] T::cons(Self[A], A) -> Self[A]
-fnalias T::cons
+#as_free_fn(drop)
 fn[A] T::drop(Self[A], Int) -> Self[A]
-fnalias T::drop
+#as_free_fn(dropWhile)
 fn[A] T::dropWhile(Self[A], (A) -> Bool) -> Self[A]
-fnalias T::dropWhile
+#as_free_fn(empty)
 fn[A] T::empty() -> Self[A]
-fnalias T::empty
+#as_free_fn(filter)
 fn[A] T::filter(Self[A], (A) -> Bool) -> Self[A]
-fnalias T::filter
+#as_free_fn(filter_map)
 fn[A, B] T::filter_map(Self[A], (A) -> B?) -> Self[B]
-fnalias T::filter_map
+#as_free_fn(foldl)
 fn[A, B] T::foldl(Self[A], B, (B, A) -> B) -> B
-fnalias T::foldl
+#as_free_fn(foldr)
 fn[A, B] T::foldr(Self[A], B, (B, A) -> B) -> B
-fnalias T::foldr
+#as_free_fn(from_iter)
 fn[A] T::from_iter(Iter[A]) -> Self[A]
-fnalias T::from_iter
+#as_free_fn(from_list)
 fn[A] T::from_list(@list.List[A]) -> Self[A]
-fnalias T::from_list
+#as_free_fn(from_rev_list)
 fn[A] T::from_rev_list(@list.List[A]) -> Self[A]
-fnalias T::from_rev_list
+#as_free_fn(head)
 fn[A] T::head(Self[A]) -> A?
-fnalias T::head
+#as_free_fn(init_)
 fn[A] T::init_(Self[A]) -> Self[A]
-fnalias T::init_
+#as_free_fn(iter)
 fn[A] T::iter(Self[A]) -> Iter[A]
-fnalias T::iter
+#as_free_fn(join)
 fn[A] T::join(Self[Self[A]]) -> Self[A]
-fnalias T::join
+#as_free_fn(last)
 fn[A] T::last(Self[A]) -> A?
-fnalias T::last
+#as_free_fn(map)
 fn[A, B] T::map(Self[A], (A) -> B) -> Self[B]
-fnalias T::map
+#as_free_fn(of)
 fn[A] T::of(FixedArray[A]) -> Self[A]
-fnalias T::of
+#as_free_fn(rev_iter)
 fn[A] T::rev_iter(Self[A]) -> Iter[A]
-fnalias T::rev_iter
+#as_free_fn(reverse)
 fn[A] T::reverse(Self[A]) -> Self[A]
-fnalias T::reverse
+#as_free_fn(singleton)
 fn[A] T::singleton(A) -> Self[A]
-fnalias T::singleton
+#as_free_fn(snoc)
 fn[A] T::snoc(Self[A], A) -> Self[A]
-fnalias T::snoc
+#as_free_fn(tail)
 fn[A] T::tail(Self[A]) -> Self[A]
-fnalias T::tail
+#as_free_fn(take)
 fn[A] T::take(Self[A], Int) -> Self[A]
-fnalias T::take
+#as_free_fn(takeWhile)
 fn[A] T::takeWhile(Self[A], (A) -> Bool) -> Self[A]
-fnalias T::takeWhile
+#as_free_fn(to_array)
 fn[A] T::to_array(Self[A]) -> Array[A]
-fnalias T::to_array
+#as_free_fn(uncons)
 fn[A] T::uncons(Self[A]) -> (A, Self[A])?
-fnalias T::uncons
+#as_free_fn(unsnoc)
 fn[A] T::unsnoc(Self[A]) -> (A, Self[A])?
-fnalias T::unsnoc
 impl[A : Show] Show for T[A]
 
 // Type aliases
