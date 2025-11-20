@@ -1,11 +1,11 @@
 ///|
 fn[A] Tsil::snoc(self : Tsil[A], x : A) -> Tsil[A] {
-  @list.construct(x, self.inner())
+  @list.cons(x, self.0)
 }
 
 ///|
 fn[A] Tsil::reverse(self : Tsil[A]) -> List[A] {
-  self.inner()
+  List(self.0)
 }
 
 ///|
@@ -15,27 +15,27 @@ fn[B, A, C] flip(f : (B, A) -> C) -> (A, B) -> C {
 
 ///|
 fn[A, B] Tsil::foldl(self : Tsil[A], z : B, f : (B, A) -> B) -> B {
-  self.inner().rev().fold(f, init=z)
+  self.0.rev().fold(f, init=z)
 }
 
 ///|
 fn[A, B] Tsil::foldr(self : Tsil[A], z : B, f : (B, A) -> B) -> B {
-  self.inner().fold(f, init=z)
+  self.0.fold(f, init=z)
 }
 
 ///|
 fn[A] Tsil::iter(self : Tsil[A]) -> Iter[A] {
-  self.inner().rev().iter()
+  self.0.rev().iter()
 }
 
 ///|
 fn[A] Tsil::rev_iter(self : Tsil[A]) -> Iter[A] {
-  self.inner().iter()
+  self.0.iter()
 }
 
 ///|
 fn[A] Tsil::append(self : Tsil[A], other : Tsil[A]) -> Tsil[A] {
-  other.inner() + self.inner()
+  Tsil(other.0 + self.0)
 }
 
 ///|
@@ -75,5 +75,5 @@ impl[A : Show] Show for Tsil[A] with output(self, logger) {
 
 ///|
 fn[A] Tsil::empty() -> Tsil[A] {
-  @list.empty()
+  Tsil(@list.empty())
 }
