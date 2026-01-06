@@ -574,25 +574,22 @@ test "@immut_deque.take/overflow" {
 }
 
 ///|
-test "@deque.from_iter/empty" {
-  let empty_iter : Iterator[Int] = Iterator::empty()
-  inspect(@deque.from_iterator(empty_iter), content="@deque.from_array([])")
+test "@immut_deque.from_iter/empty" {
+  let empty_iter : Iter[Int] = Iter::empty()
+  inspect(@immut_deque.from_iter(empty_iter), content="@deque.of([])")
 }
 
 ///|
-test "@deque.from_iter/single" {
-  let single = Iterator::singleton(42)
-  inspect(@deque.from_iterator(single), content="@deque.from_array([42])")
+test "@immut_deque.from_iter/single" {
+  let single = Iter::singleton(42)
+  inspect(@immut_deque.from_iter(single), content="@deque.of([42])")
 }
 
 ///|
-test "@deque.from_iter/multiple" {
+test "@immut_deque.from_iter/multiple" {
   let arr = [1, 2, 3, 4, 5]
-  let iter = arr.iterator()
-  inspect(
-    @deque.from_iterator(iter),
-    content="@deque.from_array([1, 2, 3, 4, 5])",
-  )
+  let iter = arr.iter()
+  inspect(@immut_deque.from_iter(iter), content="@deque.of([1, 2, 3, 4, 5])")
 }
 
 ///|

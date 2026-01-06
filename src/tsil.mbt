@@ -70,7 +70,7 @@ test "Tsil::of/multiple" {
 
 ///|
 impl[A : Show] Show for Tsil[A] with output(self, logger) {
-  logger.write_iter(self.iter().iter(), prefix="@tsil.of([", suffix="])")
+  logger.write_iter(self.iter(), prefix="@tsil.of([", suffix="])")
 }
 
 ///|
