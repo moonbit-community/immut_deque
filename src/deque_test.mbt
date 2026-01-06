@@ -1,4 +1,18 @@
 ///|
+fn int_range(start : Int, end : Int) -> Iterator[Int] {
+  let mut i = start
+  Iterator::new(fn() {
+    if i < end {
+      let current = i
+      i += 1
+      Some(current)
+    } else {
+      None
+    }
+  })
+}
+
+///|
 test "cons" {
   let xs = [] |> @immut_deque.of
   let xs = xs.cons(1).cons(2).cons(3).cons(4).cons(5)
@@ -575,21 +589,24 @@ test "@immut_deque.take/overflow" {
 
 ///|
 test "@deque.from_iter/empty" {
-  let empty_iter : Iter[Int] = Iter::empty()
-  inspect(@deque.from_iter(empty_iter), content="@deque.from_array([])")
+  let empty_iter : Iterator[Int] = Iterator::empty()
+  inspect(@deque.from_iterator(empty_iter), content="@deque.from_array([])")
 }
 
 ///|
 test "@deque.from_iter/single" {
-  let single = Iter::singleton(42)
-  inspect(@deque.from_iter(single), content="@deque.from_array([42])")
+  let single = Iterator::singleton(42)
+  inspect(@deque.from_iterator(single), content="@deque.from_array([42])")
 }
 
 ///|
 test "@deque.from_iter/multiple" {
   let arr = [1, 2, 3, 4, 5]
-  let iter = arr.iter()
-  inspect(@deque.from_iter(iter), content="@deque.from_array([1, 2, 3, 4, 5])")
+  let iter = arr.iterator()
+  inspect(
+    @deque.from_iterator(iter),
+    content="@deque.from_array([1, 2, 3, 4, 5])",
+  )
 }
 
 ///|
@@ -654,8 +671,8 @@ test "@immut_deque.takeWhile" {
 
 ///|
 test "overflow/@immut/list" {
-  let iter = Int::until(0, 1 << 20)
-  let lst = @list.from_iter(iter)
+  let iter = int_range(0, 1 << 20)
+  let lst = @list.from_iterator(iter)
   inspect(
     lst.fold(init=0.0, fn(acc, x) { acc + x.to_double() }),
     content="549755289600",
@@ -668,7 +685,7 @@ test "overflow/@immut/list" {
 
 ///|
 test "overflow" {
-  let iter = Int::until(0, 1 << 20)
+  let iter = int_range(0, 1 << 20)
   let deque = @immut_deque.from_iter(iter)
   inspect(
     deque.foldl(0.0, fn(acc, x) { acc + x.to_double() }),
