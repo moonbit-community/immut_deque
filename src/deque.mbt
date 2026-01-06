@@ -103,25 +103,15 @@ pub fn[A] T::join(self : T[T[A]]) -> T[A] {
 ///|
 #as_free_fn(iter)
 pub fn[A] T::iter(self : T[A]) -> Iter[A] {
-  Iter::new(fn(k) {
-    let (lst, tsl) = self.0
-    match lst.iter().run(k) {
-      IterContinue => tsl.iter().run(k)
-      IterEnd => IterEnd
-    }
-  })
+  let (lst, tsl) = self.0
+  lst.iter().concat(tsl.iter())
 }
 
 ///|
 #as_free_fn(rev_iter)
 pub fn[A] T::rev_iter(self : T[A]) -> Iter[A] {
-  Iter::new(fn(k) {
-    let (lst, tsl) = self.0
-    match tsl.rev_iter().run(k) {
-      IterContinue => lst.rev_iter().run(k)
-      IterEnd => IterEnd
-    }
-  })
+  let (lst, tsl) = self.0
+  tsl.rev_iter().concat(lst.rev_iter())
 }
 
 ///|
@@ -132,7 +122,7 @@ pub fn[A] T::to_array(self : T[A]) -> Array[A] {
 
 ///|
 pub impl[A : Show] Show for T[A] with output(xs, logger) {
-  logger.write_iter(xs.iter(), prefix="@deque.of([", suffix="])")
+  logger.write_iter(xs.iter().iter(), prefix="@deque.of([", suffix="])")
 }
 
 ///|
