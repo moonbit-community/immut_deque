@@ -31,7 +31,7 @@ fn[A, B] T::foldl(Self[A], B, (B, A) -> B) -> B
 fnalias T::foldl
 fn[A, B] T::foldr(Self[A], B, (B, A) -> B) -> B
 fnalias T::foldr
-fn[A] T::from_iter(Iter[A]) -> Self[A]
+fn[A] T::from_iter(Iterator[A]) -> Self[A]
 fnalias T::from_iter
 fn[A] T::from_list(@list.List[A]) -> Self[A]
 fnalias T::from_list
@@ -41,7 +41,7 @@ fn[A] T::head(Self[A]) -> A?
 fnalias T::head
 fn[A] T::init_(Self[A]) -> Self[A]
 fnalias T::init_
-fn[A] T::iter(Self[A]) -> Iter[A]
+fn[A] T::iter(Self[A]) -> Iterator[A]
 fnalias T::iter
 fn[A] T::join(Self[Self[A]]) -> Self[A]
 fnalias T::join
@@ -51,7 +51,7 @@ fn[A, B] T::map(Self[A], (A) -> B) -> Self[B]
 fnalias T::map
 fn[A] T::of(FixedArray[A]) -> Self[A]
 fnalias T::of
-fn[A] T::rev_iter(Self[A]) -> Iter[A]
+fn[A] T::rev_iter(Self[A]) -> Iterator[A]
 fnalias T::rev_iter
 fn[A] T::reverse(Self[A]) -> Self[A]
 fnalias T::reverse
@@ -76,4 +76,3 @@ impl[A : Show] Show for T[A]
 // Type aliases
 
 // Traits
-
