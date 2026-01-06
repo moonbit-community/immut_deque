@@ -19,13 +19,13 @@ fn[A, B] List::foldr(self : List[A], z : B, f : (B, A) -> B) -> B {
 }
 
 ///|
-fn[A] List::iter(self : List[A]) -> Iterator[A] {
-  self.0.iterator()
+fn[A] List::iter(self : List[A]) -> Iter[A] {
+  self.0.iter()
 }
 
 ///|
-fn[A] List::rev_iter(self : List[A]) -> Iterator[A] {
-  self.0.rev().iterator()
+fn[A] List::rev_iter(self : List[A]) -> Iter[A] {
+  self.0.rev().iter()
 }
 
 ///|

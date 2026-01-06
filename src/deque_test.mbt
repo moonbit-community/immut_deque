@@ -1,18 +1,4 @@
 ///|
-fn int_range(start : Int, end : Int) -> Iterator[Int] {
-  let mut i = start
-  Iterator::new(fn() {
-    if i < end {
-      let current = i
-      i += 1
-      Some(current)
-    } else {
-      None
-    }
-  })
-}
-
-///|
 test "cons" {
   let xs = [] |> @immut_deque.of
   let xs = xs.cons(1).cons(2).cons(3).cons(4).cons(5)
@@ -671,8 +657,8 @@ test "@immut_deque.takeWhile" {
 
 ///|
 test "overflow/@immut/list" {
-  let iter = int_range(0, 1 << 20)
-  let lst = @list.from_iterator(iter)
+  let iter = (0).until(1 << 20)
+  let lst = @list.from_iter(iter)
   inspect(
     lst.fold(init=0.0, fn(acc, x) { acc + x.to_double() }),
     content="549755289600",
@@ -685,7 +671,7 @@ test "overflow/@immut/list" {
 
 ///|
 test "overflow" {
-  let iter = int_range(0, 1 << 20)
+  let iter = (0).until(1 << 20)
   let deque = @immut_deque.from_iter(iter)
   inspect(
     deque.foldl(0.0, fn(acc, x) { acc + x.to_double() }),

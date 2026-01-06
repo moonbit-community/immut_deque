@@ -24,13 +24,13 @@ fn[A, B] Tsil::foldr(self : Tsil[A], z : B, f : (B, A) -> B) -> B {
 }
 
 ///|
-fn[A] Tsil::iter(self : Tsil[A]) -> Iterator[A] {
-  self.0.rev().iterator()
+fn[A] Tsil::iter(self : Tsil[A]) -> Iter[A] {
+  self.0.rev().iter()
 }
 
 ///|
-fn[A] Tsil::rev_iter(self : Tsil[A]) -> Iterator[A] {
-  self.0.iterator()
+fn[A] Tsil::rev_iter(self : Tsil[A]) -> Iter[A] {
+  self.0.iter()
 }
 
 ///|

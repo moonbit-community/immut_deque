@@ -102,14 +102,14 @@ pub fn[A] T::join(self : T[T[A]]) -> T[A] {
 
 ///|
 #as_free_fn(iter)
-pub fn[A] T::iter(self : T[A]) -> Iterator[A] {
+pub fn[A] T::iter(self : T[A]) -> Iter[A] {
   let (lst, tsl) = self.0
   lst.iter().concat(tsl.iter())
 }
 
 ///|
 #as_free_fn(rev_iter)
-pub fn[A] T::rev_iter(self : T[A]) -> Iterator[A] {
+pub fn[A] T::rev_iter(self : T[A]) -> Iter[A] {
   let (lst, tsl) = self.0
   tsl.rev_iter().concat(lst.rev_iter())
 }
@@ -219,8 +219,8 @@ pub fn[A] T::of(xs : FixedArray[A]) -> T[A] {
 
 ///|
 #as_free_fn(from_iter)
-pub fn[A] T::from_iter(xs : Iterator[A]) -> T[A] {
-  (List::empty(), @list.from_iterator_rev(xs))
+pub fn[A] T::from_iter(xs : Iter[A]) -> T[A] {
+  (List::empty(), @list.from_iter_rev(xs))
 }
 
 ///|
