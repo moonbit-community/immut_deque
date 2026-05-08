@@ -446,7 +446,7 @@ test "@immut_deque.filter/even_odd" {
   let deque = @immut_deque.of([1, 2, 3, 4, 5, 6])
   let is_even = fn(x : Int) { x % 2 == 0 }
   inspect(deque.filter(is_even), content="@deque.of([2, 4, 6])")
-  let is_odd = fn(x : Int) { not(x % 2 == 0) }
+  let is_odd = fn(x : Int) { !(x % 2 == 0) }
   inspect(deque.filter(is_odd), content="@deque.of([1, 3, 5])")
 }
 
