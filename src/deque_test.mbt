@@ -35,13 +35,13 @@ test "cons/snoc-2" {
 ///|
 test "uncons/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.of([])
-  inspect(empty.uncons(), content="None")
+  debug_inspect(empty.uncons(), content="None")
 }
 
 ///|
 test "uncons/single" {
   let single = @immut_deque.of([1])
-  inspect(single.uncons(), content="Some((1, @deque.of([])))")
+  debug_inspect(single.uncons(), content="Some((1, <Deque: []>))")
 }
 
 ///|
@@ -55,19 +55,19 @@ test "uncons/multiple" {
 ///|
 test "unsnoc/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.of([])
-  inspect(empty.unsnoc(), content="None")
+  debug_inspect(empty.unsnoc(), content="None")
 }
 
 ///|
 test "unsnoc/single" {
   let d = @immut_deque.of([1])
-  inspect(d.unsnoc(), content="Some((1, @deque.of([])))")
+  debug_inspect(d.unsnoc(), content="Some((1, <Deque: []>))")
 }
 
 ///|
 test "unsnoc/multiple" {
   let d = @immut_deque.of([1, 2, 3])
-  inspect(d.unsnoc(), content="Some((3, @deque.of([1, 2])))")
+  debug_inspect(d.unsnoc(), content="Some((3, <Deque: [1, 2]>))")
 }
 
 ///|
@@ -246,13 +246,13 @@ test "@immut_deque.reverse/multiple" {
 ///|
 test "@immut_deque.uncons/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.empty()
-  inspect(empty.uncons(), content="None")
+  debug_inspect(empty.uncons(), content="None")
 }
 
 ///|
 test "@immut_deque.uncons/single" {
   let d = @immut_deque.of([1])
-  inspect(d.uncons(), content="Some((1, @deque.of([])))")
+  debug_inspect(d.uncons(), content="Some((1, <Deque: []>))")
 }
 
 ///|
@@ -269,13 +269,13 @@ test "@immut_deque.uncons/multiple" {
       None => fail("Expected Some but got None at iteration \{i}")
     }
   }
-  inspect(curr.unsnoc(), content="None")
+  debug_inspect(curr.unsnoc(), content="None")
 }
 
 ///|
 test "@immut_deque.unsnoc/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.empty()
-  inspect(empty.unsnoc(), content="None")
+  debug_inspect(empty.unsnoc(), content="None")
 }
 
 ///|
@@ -305,7 +305,7 @@ test "@immut_deque.unsnoc/multiple" {
       None => fail("Expected Some but got None at iteration \{i}")
     }
   }
-  inspect(curr.unsnoc(), content="None")
+  debug_inspect(curr.unsnoc(), content="None")
 }
 
 ///|
@@ -519,37 +519,37 @@ test "@immut_deque.tail/multiple" {
 ///|
 test "@immut_deque.last/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.empty()
-  inspect(empty.last(), content="None")
+  debug_inspect(empty.last(), content="None")
 }
 
 ///|
 test "@immut_deque.last/single" {
   let d = @immut_deque.of([42])
-  inspect(d.last(), content="Some(42)")
+  debug_inspect(d.last(), content="Some(42)")
 }
 
 ///|
 test "@immut_deque.last/multiple" {
   let d = @immut_deque.of([1, 2, 3, 4, 5])
-  inspect(d.last(), content="Some(5)")
+  debug_inspect(d.last(), content="Some(5)")
 }
 
 ///|
 test "@immut_deque.head/empty" {
   let empty : @immut_deque.T[Int] = @immut_deque.empty()
-  inspect(empty.head(), content="None")
+  debug_inspect(empty.head(), content="None")
 }
 
 ///|
 test "@immut_deque.head/single" {
   let xs = @immut_deque.of([42])
-  inspect(xs.head(), content="Some(42)")
+  debug_inspect(xs.head(), content="Some(42)")
 }
 
 ///|
 test "@immut_deque.head/multiple" {
   let xs = @immut_deque.of([1, 2, 3, 4, 5])
-  inspect(xs.head(), content="Some(1)")
+  debug_inspect(xs.head(), content="Some(1)")
 }
 
 ///|
