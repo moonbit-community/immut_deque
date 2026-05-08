@@ -126,6 +126,11 @@ pub impl[A : Show] Show for T[A] with output(xs, logger) {
 }
 
 ///|
+pub impl[A : Debug] Debug for T[A] with to_repr(xs) {
+  Repr::opaque_("Deque", Repr::array(xs.to_array().map(fn(x) { to_repr(x) })))
+}
+
+///|
 #as_free_fn(filter)
 pub fn[A] T::filter(self : T[A], f : (A) -> Bool) -> T[A] {
   let (lst, tsl) = self.0

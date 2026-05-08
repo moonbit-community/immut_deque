@@ -2,6 +2,7 @@
 package "illusory0x0/immut_deque"
 
 import {
+  "moonbitlang/core/debug",
   "moonbitlang/core/list",
 }
 
@@ -72,6 +73,7 @@ pub fn[A] T::uncons(Self[A]) -> (A, Self[A])?
 #as_free_fn(unsnoc)
 pub fn[A] T::unsnoc(Self[A]) -> (A, Self[A])?
 pub impl[A : Show] Show for T[A]
+pub impl[A : @debug.Debug] @debug.Debug for T[A]
 
 // Type aliases
 
