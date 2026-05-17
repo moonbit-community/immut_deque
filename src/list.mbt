@@ -54,5 +54,15 @@ fn[A] List::empty() -> List[A] {
 
 ///|
 impl[A : Show] Show for List[A] with output(self, logger) {
-  self.0.output(logger)
+  logger.write_string("@list.from_array([")
+  let mut first = true
+  for x in self.iter() {
+    if first {
+      first = false
+    } else {
+      logger.write_string(", ")
+    }
+    x.output(logger)
+  }
+  logger.write_string("])")
 }
