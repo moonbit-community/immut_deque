@@ -44,7 +44,7 @@ test "append" {
 
 ///|
 fn[A] List::of(xs : FixedArray[A]) -> List[A] {
-  xs |> @list.from_array
+  List(@list.List(xs))
 }
 
 ///|

@@ -121,14 +121,20 @@ pub fn[A] T::to_array(self : T[A]) -> Array[A] {
 }
 
 ///|
-pub impl[A : Show] Show for T[A] with output(xs, logger) {
+pub impl[A : Show] Show for T[A] with fn output(xs, logger) {
   logger.write_iter(xs.iter().iter(), prefix="@deque.of([", suffix="])")
 }
 
 ///|
-pub impl[A : Debug] Debug for T[A] with to_repr(xs) {
-  Repr::opaque_("Deque", Repr::array(xs.to_array().map(fn(x) { to_repr(x) })))
+pub extend T with Show::{to_string, output}
+
+///|
+pub impl[A : Debug] Debug for T[A] with fn to_repr(xs) {
+  Repr::opaque_("Deque", Repr::array(xs.to_array().map(fn(x) { Repr(x) })))
 }
+
+///|
+pub extend T with @debug.Debug::{to_repr}
 
 ///|
 #as_free_fn(filter)
@@ -219,7 +225,7 @@ pub fn[A] T::from_rev_list(xs : @list.List[A]) -> T[A] {
 ///|
 #as_free_fn(of)
 pub fn[A] T::of(xs : FixedArray[A]) -> T[A] {
-  @list.from_array(xs) |> from_list
+  @list.List(xs) |> from_list
 }
 
 ///|
