@@ -52,6 +52,7 @@ pub fn[A] T::last(Self[A]) -> A?
 pub fn[A, B] T::map(Self[A], (A) -> B) -> Self[B]
 #as_free_fn(of)
 pub fn[A] T::of(FixedArray[A]) -> Self[A]
+pub fn[A : Show] T::output(Self[A], &Logger) -> Unit
 #as_free_fn(rev_iter)
 pub fn[A] T::rev_iter(Self[A]) -> Iter[A]
 #as_free_fn(reverse)
@@ -68,6 +69,8 @@ pub fn[A] T::take(Self[A], Int) -> Self[A]
 pub fn[A] T::takeWhile(Self[A], (A) -> Bool) -> Self[A]
 #as_free_fn(to_array)
 pub fn[A] T::to_array(Self[A]) -> Array[A]
+pub fn[A : @debug.Debug] T::to_repr(Self[A]) -> @debug.Repr
+pub fn[A : Show] T::to_string(Self[A]) -> String
 #as_free_fn(uncons)
 pub fn[A] T::uncons(Self[A]) -> (A, Self[A])?
 #as_free_fn(unsnoc)
