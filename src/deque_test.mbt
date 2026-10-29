@@ -34,7 +34,7 @@ test "cons/snoc-2" {
 
 ///|
 test "uncons/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.of([])
+  let empty : @immut_deque.T[Int32] = @immut_deque.of([])
   debug_inspect(empty.uncons(), content="None")
 }
 
@@ -54,7 +54,7 @@ test "uncons/multiple" {
 
 ///|
 test "unsnoc/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.of([])
+  let empty : @immut_deque.T[Int32] = @immut_deque.of([])
   debug_inspect(empty.unsnoc(), content="None")
 }
 
@@ -83,7 +83,7 @@ test "append" {
 }
 
 ///|
-let xs : @immut_deque.T[Int] = @immut_deque.of([])
+let xs : @immut_deque.T[Int32] = @immut_deque.of([])
   .cons(2)
   .cons(1)
   .snoc(3)
@@ -121,7 +121,7 @@ test "iter/rev_iter" {
 ///|
 test "@immut_deque.bind/empty" {
   // Test binding an empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.of([])
+  let empty : @immut_deque.T[Int32] = @immut_deque.of([])
   let result = empty.bind(fn(x) { @immut_deque.of([x]) })
   inspect(result, content="@deque.of([])")
 }
@@ -144,7 +144,7 @@ test "@immut_deque.bind/flatten" {
 
 ///|
 test "@immut_deque.join/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.of([])
+  let empty : @immut_deque.T[Int32] = @immut_deque.of([])
   let nested_empty = @immut_deque.of([empty])
   inspect(nested_empty.join(), content="@deque.of([])")
 }
@@ -186,7 +186,7 @@ test "@immut_deque.cons/multiple" {
 
 ///|
 test "@immut_deque.append/empty_both" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.append(empty, empty), content="@deque.of([])")
 }
 
@@ -227,7 +227,7 @@ test "@immut_deque.snoc/preserve_original" {
 
 ///|
 test "@immut_deque.reverse/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.reverse(empty), content="@deque.of([])")
 }
 
@@ -245,7 +245,7 @@ test "@immut_deque.reverse/multiple" {
 
 ///|
 test "@immut_deque.uncons/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   debug_inspect(empty.uncons(), content="None")
 }
 
@@ -274,7 +274,7 @@ test "@immut_deque.uncons/multiple" {
 
 ///|
 test "@immut_deque.unsnoc/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   debug_inspect(empty.unsnoc(), content="None")
 }
 
@@ -311,7 +311,7 @@ test "@immut_deque.unsnoc/multiple" {
 ///|
 test "@immut_deque.map/empty" {
   let empty = @immut_deque.empty()
-  let mapped = empty.map(fn(x : Int) { x + 1 })
+  let mapped = empty.map(fn(x : Int32) { x + 1 })
   inspect(mapped, content="@deque.of([])")
 }
 
@@ -355,7 +355,7 @@ test "@immut_deque.foldl/multiple" {
 
 ///|
 test "@immut_deque.foldr/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.foldr(empty, 0, fn(acc, x) { acc + x }), content="0")
 }
 
@@ -374,7 +374,7 @@ test "@immut_deque.foldr/multiple_elements" {
 }
 
 ///|
-fn arbitrary() -> @immut_deque.T[Int] {
+fn arbitrary() -> @immut_deque.T[Int32] {
   let xs = @quickcheck.samples(100)
   let mut d = @immut_deque.empty()
   for x in xs {
@@ -424,7 +424,7 @@ test "unsnoc" {
 ///|
 test "@immut_deque.filter/empty" {
   // Test filtering an empty deque should result in an empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(empty.filter(fn(x) { true }), content="@deque.of([])")
 }
 
@@ -432,11 +432,11 @@ test "@immut_deque.filter/empty" {
 test "@immut_deque.filter/all" {
   // Test filtering with a predicate that matches all elements
   let deque = @immut_deque.of([1, 2, 3, 4, 5])
-  let all_true = fn(_ : Int) { true }
+  let all_true = fn(_ : Int32) { true }
   inspect(deque.filter(all_true), content="@deque.of([1, 2, 3, 4, 5])")
 
   // Test filtering with a predicate that matches no elements
-  let all_false = fn(_ : Int) { false }
+  let all_false = fn(_ : Int32) { false }
   inspect(deque.filter(all_false), content="@deque.of([])")
 }
 
@@ -444,30 +444,30 @@ test "@immut_deque.filter/all" {
 test "@immut_deque.filter/even_odd" {
   // Test filtering with a more complex predicate
   let deque = @immut_deque.of([1, 2, 3, 4, 5, 6])
-  let is_even = fn(x : Int) { x % 2 == 0 }
+  let is_even = fn(x : Int32) { x % 2 == 0 }
   inspect(deque.filter(is_even), content="@deque.of([2, 4, 6])")
-  let is_odd = fn(x : Int) { !(x % 2 == 0) }
+  let is_odd = fn(x : Int32) { !(x % 2 == 0) }
   inspect(deque.filter(is_odd), content="@deque.of([1, 3, 5])")
 }
 
 ///|
 test "@immut_deque.filter_map/empty" {
   let empty = @immut_deque.empty()
-  let mapped = empty.filter_map(fn(x : Int) -> Int? { Some(x + 1) })
+  let mapped = empty.filter_map(fn(x : Int32) -> Int32? { Some(x + 1) })
   inspect(mapped, content="@deque.of([])")
 }
 
 ///|
 test "@immut_deque.filter_map/all_none" {
   let deque = @immut_deque.of([1, 2, 3, 4, 5])
-  let mapped = deque.filter_map(fn(_ : Int) -> Int? { None })
+  let mapped = deque.filter_map(fn(_ : Int32) -> Int32? { None })
   inspect(mapped, content="@deque.of([])")
 }
 
 ///|
 test "@immut_deque.filter_map/mixed" {
   let deque = @immut_deque.of([1, 2, 3, 4, 5])
-  let mapped = deque.filter_map(fn(x : Int) -> Int? {
+  let mapped = deque.filter_map(fn(x : Int32) -> Int32? {
     if x % 2 == 0 {
       Some(x * 2)
     } else {
@@ -479,7 +479,7 @@ test "@immut_deque.filter_map/mixed" {
 
 ///|
 test "@immut_deque.init_/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.init_(empty), content="@deque.of([])")
 }
 
@@ -498,7 +498,7 @@ test "@immut_deque.init_/multiple" {
 ///|
 test "@immut_deque.tail/empty" {
   // Test empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.tail(empty), content="@deque.of([])")
 }
 
@@ -518,7 +518,7 @@ test "@immut_deque.tail/multiple" {
 
 ///|
 test "@immut_deque.last/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   debug_inspect(empty.last(), content="None")
 }
 
@@ -536,7 +536,7 @@ test "@immut_deque.last/multiple" {
 
 ///|
 test "@immut_deque.head/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   debug_inspect(empty.head(), content="None")
 }
 
@@ -562,7 +562,7 @@ test "@immut_deque.take" {
 ///|
 test "@immut_deque.take/empty" {
   // Taking from empty deque should return empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.take(empty, 5), content="@deque.of([])")
 }
 
@@ -575,7 +575,7 @@ test "@immut_deque.take/overflow" {
 
 ///|
 test "@immut_deque.from_iter/empty" {
-  let empty_iter : Iter[Int] = Iter::empty()
+  let empty_iter : Iter[Int32] = Iter::empty()
   inspect(@immut_deque.from_iter(empty_iter), content="@deque.of([])")
 }
 
@@ -594,7 +594,7 @@ test "@immut_deque.from_iter/multiple" {
 
 ///|
 test "@immut_deque.dropWhile/empty" {
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(
     @immut_deque.dropWhile(empty, fn(x) { true }),
     content="@deque.of([])",
@@ -619,7 +619,7 @@ test "@immut_deque.dropWhile/none" {
 ///|
 test "@immut_deque.drop" {
   // Test dropping nothing from empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(@immut_deque.drop(empty, 0), content="@deque.of([])")
 
   // Test dropping nothing from non-empty deque
@@ -640,7 +640,7 @@ test "@immut_deque.drop/all" {
 ///|
 test "@immut_deque.takeWhile" {
   // Empty deque
-  let empty : @immut_deque.T[Int] = @immut_deque.empty()
+  let empty : @immut_deque.T[Int32] = @immut_deque.empty()
   inspect(empty.takeWhile(fn(_) { true }), content="@deque.of([])")
 
   // Take all elements (predicate always true)

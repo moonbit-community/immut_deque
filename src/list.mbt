@@ -44,16 +44,16 @@ test "append" {
 
 ///|
 fn[A] List::of(xs : FixedArray[A]) -> List[A] {
-  xs |> @list.from_array
+  @list.List::from_iter(xs.iter())
 }
 
 ///|
 fn[A] List::empty() -> List[A] {
-  @list.empty()
+  List(@list.List([]))
 }
 
 ///|
-impl[A : Show] Show for List[A] with output(self, logger) {
+impl[A : Show] Show for List[A] with fn output(self, logger) {
   logger.write_string("@list.from_array([")
   let mut first = true
   for x in self.iter() {
