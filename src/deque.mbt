@@ -121,13 +121,13 @@ pub fn[A] T::to_array(self : T[A]) -> Array[A] {
 }
 
 ///|
-pub impl[A : Show] Show for T[A] with output(xs, logger) {
+pub impl[A : Show] Show for T[A] with fn output(xs, logger) {
   logger.write_iter(xs.iter().iter(), prefix="@deque.of([", suffix="])")
 }
 
 ///|
-pub impl[A : Debug] Debug for T[A] with to_repr(xs) {
-  Repr::opaque_("Deque", Repr::array(xs.to_array().map(fn(x) { to_repr(x) })))
+pub impl[A : Debug] Debug for T[A] with fn to_repr(xs) {
+  Repr::opaque_("Deque", Repr::array(xs.to_array().map(fn(x) { Repr(x) })))
 }
 
 ///|
@@ -176,13 +176,13 @@ pub fn[A] T::init_(self : T[A]) -> T[A] {
 
 ///|
 #as_free_fn(take)
-pub fn[A] T::take(self : T[A], n : Int) -> T[A] {
+pub fn[A] T::take(self : T[A], n : Int32) -> T[A] {
   self.iter().take(n) |> from_iter
 }
 
 ///|
 #as_free_fn(drop)
-pub fn[A] T::drop(self : T[A], n : Int) -> T[A] {
+pub fn[A] T::drop(self : T[A], n : Int32) -> T[A] {
   self.iter().drop(n) |> from_iter
 }
 
@@ -219,7 +219,7 @@ pub fn[A] T::from_rev_list(xs : @list.List[A]) -> T[A] {
 ///|
 #as_free_fn(of)
 pub fn[A] T::of(xs : FixedArray[A]) -> T[A] {
-  @list.from_array(xs) |> from_list
+  @list.List::from_iter(xs.iter()) |> from_list
 }
 
 ///|
@@ -231,5 +231,5 @@ pub fn[A] T::from_iter(xs : Iter[A]) -> T[A] {
 ///|
 #as_free_fn(singleton)
 pub fn[A] T::singleton(x : A) -> T[A] {
-  (@list.cons(x, @list.empty()), @list.empty())
+  (@list.cons(x, @list.List([])), @list.List([]))
 }

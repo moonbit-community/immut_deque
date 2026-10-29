@@ -54,7 +54,7 @@ fn[A] Tsil::of(xs : FixedArray[A]) -> Tsil[A] {
 
 ///|
 test "Tsil::of/empty" {
-  let empty : FixedArray[Int] = []
+  let empty : FixedArray[Int32] = []
   inspect(Tsil::of(empty), content="@tsil.of([])")
 }
 
@@ -69,11 +69,11 @@ test "Tsil::of/multiple" {
 }
 
 ///|
-impl[A : Show] Show for Tsil[A] with output(self, logger) {
+impl[A : Show] Show for Tsil[A] with fn output(self, logger) {
   logger.write_iter(self.iter(), prefix="@tsil.of([", suffix="])")
 }
 
 ///|
 fn[A] Tsil::empty() -> Tsil[A] {
-  Tsil(@list.empty())
+  Tsil(@list.List([]))
 }
